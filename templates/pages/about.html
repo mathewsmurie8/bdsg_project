@@ -9,7 +9,7 @@
     <div class="container">
       <div class="row text-center">
         <div class="col-md-12">
-          <h1 class="display-4">About BT Real Estate</h1>
+          <h1 class="display-4">About BDSG</h1>
           <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
         </div>
       </div>
@@ -35,7 +35,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8">
-          <h2>We Search For The Perfect Home</h2>
+          <h2>We help make blood donation easy for you</h2>
           <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
           <img src="{% static 'img/about.jpg' %}" alt="">
           <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis esse officia repudiandae ad saepe ex, amet
@@ -48,7 +48,7 @@
             <div class="card">
                 <img class="card-img-top" src="{{ realtor.photo.url }}" alt="Seller of the month">
                 <div class="card-body">
-                  <h5 class="card-title">Seller Of The Month</h5>
+                  <h5 class="card-title">Donation Centre Of The Month</h5>
                   <h6 class="text-secondary">{{ realtor.name }}</h6>
                   <p class="card-text">{{ realtor.description }}
                   </p>
@@ -63,16 +63,16 @@
 
   <!-- Work -->
   <section id="work" class="bg-dark text-white text-center">
-    <h2 class="display-4">We Work For You</h2>
+    <h2 class="display-4">Find a Donation Centre near you</h2>
     <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem velit aperiam, unde aliquid at similique!</h4>
     <hr>
-    <a href="{% url 'listings' %}" class="btn btn-secondary text-white btn-lg">View Our Featured Listings</a>
+    <a href="{% url 'listings' %}" class="btn btn-secondary text-white btn-lg">View Our Featured Donation Request Listings</a>
   </section>
 
   <!-- Team -->
   <section id="team" class="py-5">
     <div class="container">
-      <h2 class="text-center">Our Team</h2>
+      <h2 class="text-center">Our Donation Centres</h2>
       <div class="row text-center">
         {% if realtors %}
           {% for realtor in realtors %}
@@ -80,7 +80,7 @@
               <img src="{{ realtor.photo.url }}" alt="" class="rounded-circle mb-3">
               <h4>{{ realtor.name }}</h4>
               <p class="text-success">
-                <i class="fas fa-award text-success mb-3"></i> Realtor</p>
+                <i class="fas fa-award text-success mb-3"></i> Donation Centre</p>
               <hr>
               <p>
                 <i class="fas fa-phone"></i> {{ realtor.phone }}</p>
@@ -90,7 +90,7 @@
           {% endfor %}
         {% else %}
           <div class="col-md-12">
-            <p>No Realtors Available</p>
+            <p>No Donation Centres Available</p>
           </div>
         {% endif %}       
       </div>
