@@ -10,6 +10,12 @@ class Listing(models.Model):
   state = models.CharField(max_length=100)
   zipcode = models.CharField(max_length=20)
   description = models.TextField(blank=True)
+  location = models.CharField(
+    max_length=100)
+  blood_group = models.CharField(
+    max_length=100, null=True, blank=True)
+  blood_product = models.CharField(
+    max_length=100, null=True, blank=True)
   price = models.IntegerField()
   bedrooms = models.IntegerField()
   bathrooms = models.DecimalField(max_digits=2, decimal_places=1)

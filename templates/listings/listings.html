@@ -2,14 +2,14 @@
 
 {% load humanize %}
 
-{% block title %} | Browse Property Listings {% endblock %}
+{% block title %} | Browse Blood Donation Request Listings {% endblock %}
 
 {% block content %}
 <section id="showcase-inner" class="py-5 text-white">
     <div class="container">
       <div class="row text-center">
         <div class="col-md-12">
-          <h1 class="display-4">Browse Our Properties</h1>
+          <h1 class="display-4">Browse Our Blood Donation Request Listings</h1>
           <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
         </div>
       </div>
@@ -25,7 +25,7 @@
             <a href="{% url 'index' %}">
               <i class="fas fa-home"></i> Home</a>
           </li>
-          <li class="breadcrumb-item active"> Browse Listings</li>
+          <li class="breadcrumb-item active"> Browse Blood Donation Request Listings</li>
         </ol>
       </nav>
     </div>
@@ -42,7 +42,7 @@
                 <img class="card-img-top" src="{{ listing.photo_main.url }}" alt="">
                 <div class="card-img-overlay">
                   <h2>
-                    <span class="badge badge-secondary text-white">${{ listing.price | intcomma }}</span>
+                    <span class="badge badge-secondary text-white">{{ listing.blood_group }}</span>
                   </h2>
                 </div>
                 <div class="card-body">
@@ -54,15 +54,9 @@
                   <hr>
                   <div class="row py-2 text-secondary">
                     <div class="col-6">
-                      <i class="fas fa-th-large"></i> Sqft: {{ listing.sqft }}</div>
+                      <i class="fas fa-th-large"></i> Blood Group: {{ listing.blood_group }}</div>
                     <div class="col-6">
-                      <i class="fas fa-car"></i> Garage: {{ listing.garage }}</div>
-                  </div>
-                  <div class="row py-2 text-secondary">
-                    <div class="col-6">
-                      <i class="fas fa-bed"></i> Bedrooms: {{ listing.bedrooms }}</div>
-                    <div class="col-6">
-                      <i class="fas fa-bath"></i> Bathrooms: {{ listing.bathrooms }}</div>
+                      <i class="fas fa-car"></i> Blood Product: {{ listing.blood_product }}</div>
                   </div>
                   <hr>
                   <div class="row py-2 text-secondary">
