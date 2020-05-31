@@ -33,7 +33,6 @@ def contact(request):
       [realtor_email, 'mathewsmurie@gmail.com'],
       fail_silently=False
     )
-
     messages.success(request, 'Your request has been submitted, a donation center admin will get back to you soon')
     return redirect('/listings/'+listing_id)
 
