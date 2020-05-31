@@ -4,9 +4,10 @@ from listings.choices import price_choices, bedroom_choices, state_choices
 
 from listings.models import Listing
 from realtors.models import Realtor
+from donations.models import DonationRequest, DonationCenter
 
 def index(request):
-    listings = Listing.objects.order_by('-list_date').filter(is_published=True)[:3]
+    listings = DonationRequest.objects.filter(status='PENDING')
 
     context = {
         'listings': listings,
@@ -20,7 +21,7 @@ def index(request):
 
 def about(request):
     # Get all realtors
-    realtors = Realtor.objects.order_by('-hire_date')
+    realtors = DonationCenter.objects.all()
 
     # Get MVP
     mvp_realtors = Realtor.objects.all().filter(is_mvp=True)
