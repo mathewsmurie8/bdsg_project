@@ -12,8 +12,8 @@ class DonationCenterAdmin(admin.ModelAdmin):
 admin.site.register(DonationCenter, DonationCenterAdmin)
 
 class DonationRequestAdmin(admin.ModelAdmin):
-  list_display = ('id', 'name', 'donated_by', 'status', 'blood_group', 'donation_type', 'donation_center')
-  list_display_links = ('id', 'name', 'donated_by', 'status', 'blood_group', 'donation_type', 'donation_center')
+  list_display = ('id', 'name', 'donated_by', 'status', 'blood_group', 'donation_type', 'donation_center', 'created', 'description')
+  list_display_links = ('id', 'name', 'donated_by', 'status', 'blood_group', 'donation_type', 'donation_center', 'created', 'description')
   search_fields = ('name',)
   list_per_page = 25
 

@@ -19,41 +19,26 @@
             <form action="{% url 'search' %}">
               <!-- Form Row 1 -->
               <div class="form-row">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-12 mb-3">
                   <label class="sr-only">Keywords</label>
                   <input type="text" name="keywords" class="form-control" placeholder="Keyword (Location, Blood Group etc)">
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <label class="sr-only">City</label>
-                  <input type="text" name="city" class="form-control" placeholder="City">
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <label class="sr-only">State</label>
-                  <select name="state" class="form-control">
-                    <option selected="true" disabled="disabled">Location (All)</option>
-                    {% for key,value in state_choices.items %}
-                      <option value="{{ key }}">{{ value }}</option>
-                    {% endfor %}
-                  </select>
                 </div>
               </div>
               <!-- Form Row 2 -->
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label class="sr-only">Blood Group</label>
-                  <select name="bedrooms" class="form-control">
+                  <select name="blood_group" class="form-control">
                     <option selected="true" disabled="disabled">Blood Group (Any)</option>
-                    {% for key,value in bedroom_choices.items %}
+                    {% for key,value in blood_group_choices.items %}
                       <option value="{{ key }}">{{ value }}</option>
                     {% endfor %}
                   </select>
                 </div>
                 <div class="col-md-6 mb-3">
-                  <select name="price" class="form-control" id="type">
+                  <select name="donation_type" class="form-control" id="type">
                     <option selected="true" disabled="disabled">Blood Product (All)</option>
-                    {% for key,value in price_choices.items %}
+                    {% for key,value in donation_type_choices.items %}
                       <option value="{{ key }}">{{ value }}</option>
                     {% endfor %}
                   </select>
@@ -94,19 +79,19 @@
                   </div>
                   <hr>
                   <div class="row py-2 text-secondary">
-                    <div class="col-6">
+                    <div class="col-12">
                       <i class="fas fa-th-large"></i> Blood Group: {{ listing.blood_group }}</div>
-                    <div class="col-6">
+                    <div class="col-12">
                       <i class="fas fa-car"></i> Blood Product: {{ listing.donation_type }}</div>
                   </div>
                   <hr>
                   <div class="row py-2 text-secondary">
-                    <div class="col-6">
+                    <div class="col-12">
                       <i class="fas fa-user"></i> {{ listing.donation_center.name }}</div>
                   </div>
                   <div class="row text-secondary pb-2">
-                    <div class="col-6">
-                      <i class="fas fa-clock"></i> {{ listing.list_date | timesince }}</div>
+                    <div class="col-12">
+                      <i class="fas fa-clock"></i> {{ listing.created | timesince }} ago</div>
                   </div>
                   <hr>
                   <a href="{% url 'listing' listing.id %}" class="btn btn-primary btn-block">More Info</a>
