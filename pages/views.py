@@ -4,6 +4,7 @@ from listings.choices import price_choices, bedroom_choices, state_choices
 
 from listings.models import Listing
 from realtors.models import Realtor
+from donations.choices import blood_group_choices, donation_type_choices
 from donations.models import DonationRequest, DonationCenter
 
 def index(request):
@@ -11,9 +12,8 @@ def index(request):
 
     context = {
         'listings': listings,
-        'state_choices': state_choices,
-        'bedroom_choices': bedroom_choices,
-        'price_choices': price_choices
+        'blood_group_choices': blood_group_choices,
+        'donation_type_choices': donation_type_choices
     }
 
     return render(request, 'pages/index.html', context)

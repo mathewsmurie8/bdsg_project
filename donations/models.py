@@ -1,31 +1,11 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.utils import timezone
 
+from donations.choices import (
+  DONATION_STATUS, BLOOD_GROUPS, DONATION_TYPE)
 
-DONATION_STATUS = (
-    ('PENDING', 'PENDING'),
-    ('COMPLETED', 'COMPLETED'),
-    ('EXPIRED', 'EXPIRED'),
-)
-
-BLOOD_GROUPS = (
-  ('O+', 'O+'),
-  ('A+', 'A+'),
-  ('B+', 'B+'),
-  ('AB+', 'AB+'),
-  ('O-', 'O-'),
-  ('A-', 'A-'),
-  ('B-', 'B-'),
-  ('AB-', 'AB-'),
-)
-
-DONATION_TYPE = (
-  ('RED_BLOOD_CELLS', 'Red blood cells'),
-  ('PLATELETS', 'Platelets'),
-  ('WHOLE_BLOOD', 'Whole blood'),
-  ('PLASMA', 'Plasma')
-)
 
 # Create your models for donations app here.
 class DonationCenter(models.Model):
@@ -52,6 +32,8 @@ class DonationRequest(models.Model):
   blood_group = models.CharField(max_length=255, choices=BLOOD_GROUPS)
   donation_type = models.CharField(max_length=255, choices=DONATION_TYPE)
   donation_center = models.ForeignKey(DonationCenter, null=True, blank=True, on_delete=models.CASCADE)
+  created = models.DateTimeField(default=timezone.now(), max_length=255)
+  description = models.TextField(null=True, blank=True)
 
   def __str__(self):
     return self.name
