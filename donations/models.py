@@ -1,7 +1,9 @@
+import os
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.utils import timezone
+from twilio.rest import Client
 
 from donations.choices import (
   DONATION_STATUS, BLOOD_GROUPS, DONATION_TYPE)
@@ -27,13 +29,34 @@ class UserDonationCenter(models.Model):
 class DonationRequest(models.Model):
   name = models.CharField(max_length=200)
   photo = models.ImageField(upload_to='photos/%Y/%m/%d/', null=True, blank=True)
-  donated_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-  status = models.CharField(max_length=255, choices=DONATION_STATUS)
+  status = models.CharField(default='PENDING', max_length=255, choices=DONATION_STATUS)
   blood_group = models.CharField(max_length=255, choices=BLOOD_GROUPS)
   donation_type = models.CharField(max_length=255, choices=DONATION_TYPE)
   donation_center = models.ForeignKey(DonationCenter, null=True, blank=True, on_delete=models.CASCADE)
   created = models.DateTimeField(default=timezone.now(), max_length=255)
   description = models.TextField(null=True, blank=True)
+  created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+  def send_sms_to_donors(self):
+    """Send notification SMS to potential donors."""
+
+    account_sid = os.getenv('ACCOUNT_SID', '')
+    auth_token = os.getenv('AUTH_TOKEN', '')
+    message_sender = os.getenv('MESSAGE_SENDER', '')
+
+    client = Client(account_sid, auth_token)
+
+    client.messages.create(
+        to='+254707038108',
+        from_=message_sender,
+        body='Test message'
+    )
+
+  def save(self, *args, **kwargs):
+      """Ensure validations are run and updated/created preserved."""
+      self.full_clean(exclude=None)
+      self.send_sms_to_donors()
+      super(DonationRequest, self).save(*args, **kwargs)
 
   def __str__(self):
     return self.name
@@ -41,6 +64,6 @@ class DonationRequest(models.Model):
 
 class DonationRequestAppointment(models.Model):
   donation_request = models.ForeignKey(DonationRequest, max_length=255, on_delete=models.CASCADE)
-  created_by = models.ForeignKey(User, max_length=255, on_delete=models.CASCADE)
-  appointment_status = models.CharField(max_length=255, choices=DONATION_STATUS)
+  created_by = models.CharField(max_length=255, blank=True, null=True)
+  appointment_status = models.CharField(default='PENDING', max_length=255, choices=DONATION_STATUS)
   appointment_date = models.DateTimeField(blank=True, null=True)
