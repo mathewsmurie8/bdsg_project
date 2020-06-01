@@ -49,7 +49,7 @@
                   <div class="listing-heading text-center">
                     <h4 class="text-primary">{{ listing.name }}</h4>
                     <p>
-                      <i class="fas fa-map-marker text-secondary"></i> {{ listing.status }}</p>
+                      <i class="fas fa-map-marker text-secondary"></i> {{ ' ' }}</p>
                   </div>
                   <hr>
                   <div class="row py-2 text-secondary">
@@ -74,7 +74,7 @@
             </div>
           {% endfor %}
         {% else %}
-          <div class="col-md-12">
+          <div class="col-md-12  text-center mb-3">
             <p>No Listings Available</p>
           </div>
         {% endif %}

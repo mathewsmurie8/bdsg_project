@@ -44,6 +44,9 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Blood donation request</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
                   <th></th>
                 </tr>
               </thead>
@@ -52,6 +55,9 @@
                   <tr>
                     <td>{{ contact.id }}</td>
                     <td>{{ contact.listing }}</td>
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.phone }}</td>
                     <td>
                       <a class="btn btn-light" href="{% url 'listing' contact.listing_id %}">View Listing</a>
                     </td>

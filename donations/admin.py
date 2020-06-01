@@ -12,10 +12,14 @@ class DonationCenterAdmin(admin.ModelAdmin):
 admin.site.register(DonationCenter, DonationCenterAdmin)
 
 class DonationRequestAdmin(admin.ModelAdmin):
-  list_display = ('id', 'name', 'donated_by', 'status', 'blood_group', 'donation_type', 'donation_center', 'created', 'description')
-  list_display_links = ('id', 'name', 'donated_by', 'status', 'blood_group', 'donation_type', 'donation_center', 'created', 'description')
-  search_fields = ('name',)
+  list_display = ('id', 'name', 'created_by', 'status', 'blood_group', 'donation_type', 'donation_center', 'created', 'description')
+  list_display_links = ('id', 'name', 'created_by', 'status', 'blood_group', 'donation_type', 'donation_center', 'created', 'description')
+  search_fields = ('name', 'donation_center')
   list_per_page = 25
+
+  def save_model(self, request, obj, form, change):
+    obj.created_by = request.user
+    super().save_model(request, obj, form, change)
 
 admin.site.register(DonationRequest, DonationRequestAdmin)
 

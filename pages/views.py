@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from django.http import HttpResponse
 from listings.choices import price_choices, bedroom_choices, state_choices
 
@@ -9,6 +10,9 @@ from donations.models import DonationRequest, DonationCenter
 
 def index(request):
     listings = DonationRequest.objects.filter(status='PENDING')
+
+    if not listings:
+        messages.error(request, 'There are no pending blood donation requests at this time. Thank you')
 
     context = {
         'listings': listings,
