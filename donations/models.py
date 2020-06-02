@@ -7,6 +7,7 @@ from twilio.rest import Client
 
 from donations.choices import (
   DONATION_STATUS, BLOOD_GROUPS, DONATION_TYPE)
+from contacts.models import Contact
 
 
 # Create your models for donations app here.
@@ -35,6 +36,7 @@ class DonationRequest(models.Model):
   donation_center = models.ForeignKey(DonationCenter, null=True, blank=True, on_delete=models.CASCADE)
   created = models.DateTimeField(default=timezone.now(), max_length=255)
   description = models.TextField(null=True, blank=True)
+  donation_for = models.ForeignKey(Contact, null=True, blank=True, on_delete=models.CASCADE)
   created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
   def send_sms_to_donors(self):
@@ -43,13 +45,15 @@ class DonationRequest(models.Model):
     account_sid = os.getenv('ACCOUNT_SID', '')
     auth_token = os.getenv('AUTH_TOKEN', '')
     message_sender = os.getenv('MESSAGE_SENDER', '')
-
+    donation_request_id = str(self.id)
+    donation_url = 'http://127.0.0.1:8000/listings/' + donation_request_id
     client = Client(account_sid, auth_token)
+    message = 'Urgent blood appeal for blood group ' + self.blood_group + ' at ' + self.donation_center.name + '.' + '\n' + 'You can set a donation appointment at ' + '\n' + donation_url
 
     client.messages.create(
-        to='+254707038108',
+        to='+254707038109',
         from_=message_sender,
-        body='Test message'
+        body=message
     )
 
   def save(self, *args, **kwargs):
