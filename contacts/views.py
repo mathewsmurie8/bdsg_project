@@ -2,6 +2,7 @@ import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.utils import timezone
 from .models import Contact
 from donations.models import DonationRequest, DonationRequestAppointment
 
@@ -23,6 +24,20 @@ def contact(request):
       if has_contacted:
         messages.error(request, 'You have already made an inquiry for this listing')
         return redirect('/listings/'+listing_id)
+
+    # Check whether a member is within a donation period
+    if Contact.objects.filter(email=email, contact_type='DONOR').exists():
+      contacts = Contact.objects.filter(email=email, contact_type='DONOR')
+      for contact in contacts:
+        don_request_appointments = DonationRequestAppointment.objects.filter(created_by=email)
+        for don_request_appointment in don_request_appointments:
+          don_request = don_request_appointment.donation_request
+          if don_request.status == 'COMPLETED':
+            if don_request.completed_date:
+              duration = timezone.now() - don_request.completed_date
+              if int(duration.days) < int(42):
+                messages.error(request, 'You are not eligible to donate blood since you donated blood ' + str(duration.days) + ' days ago')
+                return redirect('/listings/'+listing_id)
 
     # create contact entry
     contact = Contact(listing=listing, listing_id=listing_id, name=name, email=email, phone=phone, message=message, user_id=user_id )
