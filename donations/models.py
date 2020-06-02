@@ -38,6 +38,7 @@ class DonationRequest(models.Model):
   description = models.TextField(null=True, blank=True)
   donation_for = models.ForeignKey(Contact, null=True, blank=True, on_delete=models.CASCADE)
   created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+  completed_date = models.DateTimeField(null=True, blank=True, max_length=255)
 
   def send_sms_to_donors(self):
     """Send notification SMS to potential donors."""
@@ -59,7 +60,9 @@ class DonationRequest(models.Model):
   def save(self, *args, **kwargs):
       """Ensure validations are run and updated/created preserved."""
       self.full_clean(exclude=None)
-      self.send_sms_to_donors()
+      # self.send_sms_to_donors()
+      if self.status == 'COMPLETED':
+        self.completed_date = timezone.now()
       super(DonationRequest, self).save(*args, **kwargs)
 
   def __str__(self):
