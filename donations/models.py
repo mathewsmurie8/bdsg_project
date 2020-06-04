@@ -3,6 +3,7 @@ from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django_google_maps import fields as map_fields
 from twilio.rest import Client
 
 from donations.choices import (
@@ -19,6 +20,8 @@ class DonationCenter(models.Model):
   email = models.CharField(max_length=100)
   is_approved = models.BooleanField(default=False)
   is_verified = models.BooleanField(default=False)
+  address = map_fields.AddressField(max_length=200, null=True, blank=True)
+  geolocation = map_fields.GeoLocationField(max_length=100, null=True, blank=True)
   def __str__(self):
     return self.name
 
