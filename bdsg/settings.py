@@ -150,3 +150,5 @@ except ImportError:
     pass
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', '')
