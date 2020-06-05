@@ -36,7 +36,7 @@ def search(request):
   if 'keywords' in request.GET:
     keywords = request.GET['keywords']
     if keywords:
-      queryset_list = queryset_list.filter(description__icontains=keywords)
+      queryset_list = queryset_list.filter(donation_center__address__icontains=keywords)
 
   # Blood Group
   if 'blood_group' in request.GET:
