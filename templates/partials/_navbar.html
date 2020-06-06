@@ -40,6 +40,15 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
+            <li
+            {% if 'register_donation_center' in request.path %}
+              class="nav-item active mr-3"
+            {% else %}
+              class="nav-item mr-3"
+            {% endif %}
+          >
+            <a class="nav-link" href="{% url 'register_donation_center' %}">Register Center</a>
+          </li>
           {% if user.is_authenticated %}
             <li
             {% if 'dashboard' in request.path %}
