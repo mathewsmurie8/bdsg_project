@@ -88,9 +88,9 @@ class DonationRequest(models.Model):
       self.full_clean(exclude=None)
       if self.status == 'COMPLETED':
         self.completed_date = timezone.now()
-        # self.send_sms_to_donors('COMPLETION')
+        self.send_sms_to_donors('COMPLETION')
       else:
-        # self.send_sms_to_donors('DONATION')
+        self.send_sms_to_donors('DONATION')
         print('place holder')
 
       super(DonationRequest, self).save(*args, **kwargs)
