@@ -76,6 +76,7 @@ class DonationRequest(models.Model):
       message = 'Urgent blood appeal for blood group ' + self.blood_group + ' at ' + self.donation_center.name + '.' + '\n' + 'You can set a donation appointment at ' + '\n' + donation_url
     else:
       message = 'Congratulations!' '\n' + 'Your blood donation needs have been fully met.'
+      # TODO: Add logic to fetch donors who had created appointments and send them messages that the donations are no longer needed.
 
     client.messages.create(
         to='+254707038109',
