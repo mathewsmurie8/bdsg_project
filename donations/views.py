@@ -44,3 +44,13 @@ def register_donation_center(request):
       messages.error(request, 'An error occurred when you were registering your donation center')
   else:
     return render(request, 'accounts/register_donation_center.html')
+
+
+def centers(request):
+    # Get all donation centers
+    centers = DonationCenter.objects.all()
+    context = {
+        'centers': centers
+    }
+
+    return render(request, 'pages/centers.html', context)
