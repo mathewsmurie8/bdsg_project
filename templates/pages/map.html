@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_7bd63d27d92a4ad0a0dfc663ef99e55c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_7bd63d27d92a4ad0a0dfc663ef99e55c" ></div>
+        
+</body>
+<script>    
+    
+            var map_7bd63d27d92a4ad0a0dfc663ef99e55c = L.map(
+                "map_7bd63d27d92a4ad0a0dfc663ef99e55c",
+                {
+                    center: [-1.2672428, 36.8373071],
+                    crs: L.CRS.EPSG3857,
+                    zoomControl: true,
+                    zoom: 12,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_3a2ee9a1f1f74087820df8eafafee4c5 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_7bd63d27d92a4ad0a0dfc663ef99e55c);
+        
+    
+            var marker_5c5694835df6476bb7a6a17a5fdddc4e = L.marker(
+                [-1.2672428, 36.8373071],
+                {}
+            ).addTo(map_7bd63d27d92a4ad0a0dfc663ef99e55c);
+        
+    
+        var popup_2aeca4b6d0d6423eb4505437342e1157 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_3807c038edee45d4937da2e3a52ff34b = $(`<div id="html_3807c038edee45d4937da2e3a52ff34b" style="width: 100.0%; height: 100.0%;"><strong>tumaini hospital</strong></div>`)[0];
+            popup_2aeca4b6d0d6423eb4505437342e1157.setContent(html_3807c038edee45d4937da2e3a52ff34b);
+        
+
+        marker_5c5694835df6476bb7a6a17a5fdddc4e.bindPopup(popup_2aeca4b6d0d6423eb4505437342e1157)
+        ;
+
+        
+    
+    
+            marker_5c5694835df6476bb7a6a17a5fdddc4e.bindTooltip(
+                `<div>
+                     Click for more info.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_89490df30e83451da97399a309261bfb = L.marker(
+                [-1.2709458177620256, 36.839785105834956],
+                {}
+            ).addTo(map_7bd63d27d92a4ad0a0dfc663ef99e55c);
+        
+    
+        var popup_0834663e8d1f4d79af8785b52302dd09 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_d36d8a7ad0614d2aba3f7d5bf1a0f9f6 = $(`<div id="html_d36d8a7ad0614d2aba3f7d5bf1a0f9f6" style="width: 100.0%; height: 100.0%;"><strong>jaribio donation center</strong></div>`)[0];
+            popup_0834663e8d1f4d79af8785b52302dd09.setContent(html_d36d8a7ad0614d2aba3f7d5bf1a0f9f6);
+        
+
+        marker_89490df30e83451da97399a309261bfb.bindPopup(popup_0834663e8d1f4d79af8785b52302dd09)
+        ;
+
+        
+    
+    
+            marker_89490df30e83451da97399a309261bfb.bindTooltip(
+                `<div>
+                     Click for more info.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f2de8263c509492ba7d7482160b7907f = L.marker(
+                [-1.2650201, 36.8447381],
+                {}
+            ).addTo(map_7bd63d27d92a4ad0a0dfc663ef99e55c);
+        
+    
+        var popup_9d8bfb3280d04933bd441104c9c1407e = L.popup({"maxWidth": "100%"});
+
+        
+            var html_dd0da7951be341ae8624616b5d3f34c6 = $(`<div id="html_dd0da7951be341ae8624616b5d3f34c6" style="width: 100.0%; height: 100.0%;"><strong>jaribio donation center</strong></div>`)[0];
+            popup_9d8bfb3280d04933bd441104c9c1407e.setContent(html_dd0da7951be341ae8624616b5d3f34c6);
+        
+
+        marker_f2de8263c509492ba7d7482160b7907f.bindPopup(popup_9d8bfb3280d04933bd441104c9c1407e)
+        ;
+
+        
+    
+    
+            marker_f2de8263c509492ba7d7482160b7907f.bindTooltip(
+                `<div>
+                     Click for more info.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8f1f6e2683244a27b8064620d579971d = L.marker(
+                [-1.2832261, 36.82201849999999],
+                {}
+            ).addTo(map_7bd63d27d92a4ad0a0dfc663ef99e55c);
+        
+    
+        var popup_b12a000cf1384a5b9fbcbda11a680925 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_b67be1e2188d451d8d7163e1b15853a4 = $(`<div id="html_b67be1e2188d451d8d7163e1b15853a4" style="width: 100.0%; height: 100.0%;"><strong>test donation center</strong></div>`)[0];
+            popup_b12a000cf1384a5b9fbcbda11a680925.setContent(html_b67be1e2188d451d8d7163e1b15853a4);
+        
+
+        marker_8f1f6e2683244a27b8064620d579971d.bindPopup(popup_b12a000cf1384a5b9fbcbda11a680925)
+        ;
+
+        
+    
+    
+            marker_8f1f6e2683244a27b8064620d579971d.bindTooltip(
+                `<div>
+                     Click for more info.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d479d89a263244888b20cca4d22eb372 = L.marker(
+                [-1.29475, 36.806605],
+                {}
+            ).addTo(map_7bd63d27d92a4ad0a0dfc663ef99e55c);
+        
+    
+        var popup_81c40a40e9d5485a93b7527582742874 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_4c8b3622cd214a6f93c15ba4cc37f544 = $(`<div id="html_4c8b3622cd214a6f93c15ba4cc37f544" style="width: 100.0%; height: 100.0%;"><strong>final donation center</strong></div>`)[0];
+            popup_81c40a40e9d5485a93b7527582742874.setContent(html_4c8b3622cd214a6f93c15ba4cc37f544);
+        
+
+        marker_d479d89a263244888b20cca4d22eb372.bindPopup(popup_81c40a40e9d5485a93b7527582742874)
+        ;
+
+        
+    
+    
+            marker_d479d89a263244888b20cca4d22eb372.bindTooltip(
+                `<div>
+                     Click for more info.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>

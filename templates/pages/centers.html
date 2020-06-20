@@ -6,45 +6,45 @@
 
 {% block content %}
 <section id="showcase-inner" class="py-5 text-white">
-    <div class="container">
-      <div class="row text-center">
-        <div class="col-md-12">
-          <h1 class="display-4">Donation Centres</h1>
-          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
-        </div>
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12">
+        <h1 class="display-4">Donation Centres</h1>
+        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
       </div>
     </div>
-  </section>
-
-  <!-- Donation Centers -->
-  <section id="team" class="py-5">
-    <div class="container">
-      <h2 class="text-center">Our Donation Centres</h2>
-      <div class="row text-center">
-        {% if centers %}
-          {% for center in centers %}
-          <div class="col-md-4">
-              <img src="{{ center.photo.url }}" alt="" class="rounded-circle mb-3">
-              <h4>{{ center.name }}</h4>
-              <p class="text-success">
-                <i class="fas fa-award text-success mb-3"></i> Donation Centre</p>
-              <hr>
-              <p>
-                <i class="fas fa-phone"></i> {{ center.phone }}</p>
-              <p>
-                <i class="fas fa-envelope-open"></i> {{ center.email }}</p>
-            </div>
-          {% endfor %}
-        {% else %}
-          <div class="col-md-12">
-            <p>No Donation Centres Available</p>
+  </div>
+</section>
+<div class="container">
+    <h2 class="text-center">Donation Centre Locations</h2>     
+  </div>
+{% include "pages/map.html" with objects=centers %}
+<!-- Donation Centers -->
+<section id="team" class="py-5">
+  <div class="container">
+    <h2 class="text-center">Our Donation Centres</h2>
+    <div class="row text-center">
+      {% if centers %}
+        {% for center in centers %}
+        <div class="col-md-4">
+            <img src="{{ center.photo.url }}" alt="" class="rounded-circle mb-3">
+            <h4>{{ center.name }}</h4>
+            <p class="text-success">
+              <i class="fas fa-award text-success mb-3"></i> Donation Centre</p>
+            <hr>
+            <p>
+              <i class="fas fa-phone"></i> {{ center.phone }}</p>
+            <p>
+              <i class="fas fa-envelope-open"></i> {{ center.email }}</p>
+            <a href="{% url 'center_donations' center.id %}" class="btn btn-primary btn-block">view donations</a>
           </div>
-        {% endif %}       
-      </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-md-12">
+          <p>No Donation Centres Available</p>
+        </div>
+      {% endif %}       
     </div>
-    <div class="container">
-      <h2 class="text-center">Donation Centre Locations</h2>
-          
-    </div>
-  </section>
+  </div>
+</section>
 {% endblock %}

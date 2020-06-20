@@ -1,3 +1,4 @@
+import folium
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -49,8 +50,33 @@ def register_donation_center(request):
 def centers(request):
     # Get all donation centers
     centers = DonationCenter.objects.all()
+    # Create map object
+    m = folium.Map(location=[-1.2672428,36.8373071], zoom_start=12)
+
+    # Global tooltip
+    tooltip = 'Click for more info.'
+
+    # Create markers
+    centers = DonationCenter.objects.filter(geolocation__isnull=False)
+    for center in centers:
+      folium.Marker([center.geolocation.lat, center.geolocation.lon],
+      popup='<strong>' + center.name + '</strong>',
+      tooltip=tooltip).add_to(m)
+
+    # Create Map
+    m.save('templates/pages/map.html')
     context = {
         'centers': centers
     }
 
     return render(request, 'pages/centers.html', context)
+
+def center_donations(request, center_id):
+  donation_center = get_object_or_404(DonationCenter, pk=center_id)
+  center_donations = DonationRequest.objects.filter(donation_center=donation_center)
+
+  context = {
+    'listings': center_donations
+  }
+
+  return render(request, 'listings/center_listings.html', context)
