@@ -5,7 +5,53 @@
 {% block title %} | Donation Centres {% endblock %}
 
 {% block content %}
-<section id="showcase-inner" class="py-5 text-white">
+<section id="showcase-inner" class="showcase-search text-white py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <form action="{% url 'search' %}">
+            <!-- Form Row 1 -->
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="sr-only">Keywords</label>
+                <input type="text" name="keywords" class="form-control" placeholder="Keyword (Location, Blood Group etc)" value="{{ values.keywords }}">
+              </div>
+            </div>
+            <!-- Form Row 2 -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="sr-only">Blood Group</label>
+                <select name="blood_group" class="form-control">
+                  <option selected="true" disabled="disabled">Blood Group (Any)</option>
+                  {% for key,value in blood_group_choices.items %}
+                      <option value="{{ key }}"
+                      {% if key == values.blood_group %}
+                        selected
+                      {% endif %}
+                      >{{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <select name="donation_type" class="form-control">
+                  <option selected="true" disabled="disabled">Blood Product (All)</option>
+                  {% for key,value in donation_type_choices.items %}
+                      <option value="{{ key }}"
+                      {% if key == values.donation_type %}
+                        selected
+                      {% endif %}
+                      >{{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- <section id="showcase-inner" class="py-5 text-white">
   <div class="container">
     <div class="row text-center">
       <div class="col-md-12">
@@ -14,7 +60,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 <div class="container">
     <h2 class="text-center">Donation Centre Locations</h2>     
   </div>

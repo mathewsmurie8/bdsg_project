@@ -33,7 +33,7 @@ class DonationCenter(models.Model):
     send_mail(
       'Account activation',
       'Dear ' + self.name + ', \n' + 'Your account has been created',
-      'mathewsmurie@gmail.com',
+      'skidweezmurie@gmail.com',
       [recipient],
       fail_silently=False
     )

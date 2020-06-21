@@ -1,4 +1,6 @@
 import folium
+import math
+
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -46,6 +48,19 @@ def register_donation_center(request):
   else:
     return render(request, 'accounts/register_donation_center.html')
 
+def distance(origin, destination):
+    lat1, lon1 = origin
+    lat2, lon2 = destination
+    radius = 6371 # km
+
+    dlat = math.radians(lat2-lat1)
+    dlon = math.radians(lon2-lon1)
+    a = math.sin(dlat/2) * math.sin(dlat/2) + math.cos(math.radians(lat1)) \
+        * math.cos(math.radians(lat2)) * math.sin(dlon/2) * math.sin(dlon/2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    d = radius * c
+
+    return round(d, 2)
 
 def centers(request):
     # Get all donation centers
@@ -59,8 +74,10 @@ def centers(request):
     # Create markers
     centers = DonationCenter.objects.filter(geolocation__isnull=False)
     for center in centers:
+      center_donations_url = 'http://127.0.0.1:8000/donations/' + str(center.id)
+      center_distance = distance((-1.2672428,36.8373071), (center.geolocation.lat, center.geolocation.lon))
       folium.Marker([center.geolocation.lat, center.geolocation.lon],
-      popup='<strong>' + center.name + '</strong>',
+      popup='<strong>' + center.name + '</strong> \n' + str(center_distance) + 'Km away' + '\n'  + '<a href=' + center_donations_url + ' class="btn btn-primary btn-block">view donation requests</a>',
       tooltip=tooltip).add_to(m)
 
     # Create Map
