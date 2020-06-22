@@ -10,7 +10,7 @@
       <div class="row text-center">
         <div class="col-md-12">
           <h1 class="display-4">About BDSG</h1>
-          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
+          <p class="lead">Learn more about BDSG and it's role in blood donation</p>
         </div>
       </div>
     </div>
@@ -34,39 +34,49 @@
   <section id="about" class="py-4">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
-          <h2>We help make blood donation easy for you</h2>
-          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
-          <img src="{% static 'img/about.jpg' %}" alt="">
-          <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis esse officia repudiandae ad saepe ex, amet
-            neque quod accusamus rem quia magnam magni dolorum facilis ullam minima perferendis? Exercitationem at quaerat
-            commodi id libero eveniet harum perferendis laborum molestias quia.</p>
+        <div class="col-md-12">
+          <h2>Who can you donate to or receive blood from?</h2>
+          <p class="lead"> This question has proven challenging to many people. The image below provides you with a quick summary of which blood groups you can donate 
+            to and which ones you can receive blood from.
+          </p>
+          <img src="{% static 'img/blood_groups.png' %}" alt="">
         </div>
-        <div class="col-md-4">
-          {% if mvp_realtors %}
-            {% for realtor in mvp_realtors %}
-            <div class="card">
-                <img class="card-img-top" src="{{ realtor.photo.url }}" alt="Seller of the month">
-                <div class="card-body">
-                  <h5 class="card-title">Donation Centre Of The Month</h5>
-                  <h6 class="text-secondary">{{ realtor.name }}</h6>
-                  <p class="card-text">{{ realtor.description }}
-                  </p>
+        <div class="col-md-12">
+            <h2>What is the role of BDSG?</h2>
+            <p class="lead"> BDSG is a platform that allows would be donors to get all information they need in matters pertaining to blood donation.
+            </p>
+            <p class="mt-4">
+              This platform provides all the information you need as a donor to be empowered to donate blood conveniently.
+              BDSG leverages powerful technologies such as geolocation, SMS and our network of partner donation centers to allow you book and appointment and make a blood donation.
+            </p>
+          </div>
+          <div class="col-md-12">
+              <h2>Number of people in need of blood currently</h2>
+              <p class="lead"> BDSG is a platform that allows would be donors to get all information they need in matters pertaining to blood donation.
+              </p>
+              {% include "listings/dashboard.html" with objects=dashboard_details %}
+              <p class="mt-4">BDSG uses it's network of donation centers to highlights blood donation needs to blood donors.</p>
+            </div>
+            <div class="col-md-12">
+                <h2>Partners</h2>
+                <p class="lead"> BDSG has partnered with other organisations to ensure all donors are furnished with the most updated information when it comes to blood donation
+                </p>
+                <div style="display: flex;overflow-x:auto;">
+                    <a href="https://www.redcross.or.ke/" target="_blank"> <img src="{% static 'img/krcs.svg' %}" alt="" class="col-md-6" style="flex: 33.33%;padding: 5px;" width="500" height="500"></a>
+                    <a href="https://nbtskenya.or.ke/" target="_blank"> <img src="{% static 'img/knbts.png' %}" alt="" class="col-md-6" width="300" height="300"></a>
                 </div>
+                <p class="mt-4">BDSG uses it's network of donation centers to highlights blood donation needs to blood donors.</p>
               </div>
-            {% endfor %}
-          {% endif %}
-        </div>
       </div>
     </div>
   </section>
 
   <!-- Work -->
-  <section id="work" class="bg-dark text-white text-center">
+  <section id="work" class="bg-light text-black text-center">
     <h2 class="display-4">Find a Donation Centre near you</h2>
-    <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem velit aperiam, unde aliquid at similique!</h4>
+    <h4>Be a blood donor today and help save a life</h4>
     <hr>
-    <a href="{% url 'listings' %}" class="btn btn-secondary text-white btn-lg">View Our Donation Requests</a>
+    <a href="{% url 'listings' %}" class="btn btn-secondary text-white btn-lg">View Donation Requests</a>
   </section>
 
 {% endblock %}

@@ -4,18 +4,45 @@ import math
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from donations.choices import blood_group_choices, donation_type_choices
 from donations.models import DonationRequest, DonationCenter
 
 # Create your views here.
 def index(request):
   donations = DonationRequest.objects.all().filter(status='PENDING')
 
+  donation_centers = DonationCenter.objects.all()
+  dashboard_details = []
+  for donation_center in donation_centers:
+    center_donations = DonationRequest.objects.filter(donation_center=donation_center, status='PENDING')
+    Ap_count = center_donations.filter(allowed_blood_groups__icontains='A+')
+    Bp_count = center_donations.filter(allowed_blood_groups__icontains='B+')
+    ABp_count = center_donations.filter(allowed_blood_groups__icontains='AB+')
+    Op_count = center_donations.filter(allowed_blood_groups__icontains='O+')
+    On_count = center_donations.filter(allowed_blood_groups__icontains='O-')
+    ABn_count = center_donations.filter(allowed_blood_groups__icontains='AB-')
+    Bn_count = center_donations.filter(allowed_blood_groups__icontains='B-')
+    An_count = center_donations.filter(allowed_blood_groups__icontains='A-')
+    center_payload = {
+      'name': donation_center.name,
+      'A+': Ap_count,
+      'B+': Bp_count,
+      'AB+': ABp_count,
+      'O+': Op_count,
+      'O-': On_count,
+      'AB-': ABn_count,
+      'B-': Bn_count,
+      'A-': An_count
+    }
+    dashboard_details.append(center_payload)
+
   paginator = Paginator(donations, 6)
   page = request.GET.get('page')
   paged_listings = paginator.get_page(page)
 
   context = {
-    'donations': paged_listings
+    'donations': paged_listings,
+    'dashboard_details': dashboard_details
   }
 
   return render(request, 'listings/listings.html', context)
@@ -74,15 +101,19 @@ def centers(request):
     # Create markers
     centers = DonationCenter.objects.filter(geolocation__isnull=False)
     for center in centers:
+      center_name = center.address + ' ' + center.name
+      center_name = center_name.replace(' ', '+')
       center_donations_url = 'http://127.0.0.1:8000/donations/' + str(center.id)
       center_distance = distance((-1.2672428,36.8373071), (center.geolocation.lat, center.geolocation.lon))
       folium.Marker([center.geolocation.lat, center.geolocation.lon],
-      popup='<strong>' + center.name + '</strong> \n' + str(center_distance) + 'Km away' + '\n'  + '<a href=' + center_donations_url + ' class="btn btn-primary btn-block">view donation requests</a>',
+      popup='<strong>' + center.name + '</strong> \n' + str(center_distance) + 'Km away' + '\n'  + '<a href=' + center_donations_url + ' class="btn btn-primary btn-block">view donation requests</a>' + '\n <a href=https://www.google.com/maps/search/' + center_name + ' class="btn btn-primary btn-block" target="_blank">view on google map</a>',
       tooltip=tooltip).add_to(m)
 
     # Create Map
     m.save('templates/pages/map.html')
     context = {
+        'blood_group_choices': blood_group_choices,
+        'donation_type_choices': donation_type_choices,
         'centers': centers
     }
 
@@ -90,10 +121,45 @@ def centers(request):
 
 def center_donations(request, center_id):
   donation_center = get_object_or_404(DonationCenter, pk=center_id)
-  center_donations = DonationRequest.objects.filter(donation_center=donation_center)
+  center_donations = DonationRequest.objects.filter(
+    donation_center=donation_center, status='PENDING')
 
   context = {
+    'blood_group_choices': blood_group_choices,
+    'donation_type_choices': donation_type_choices,
     'listings': center_donations
   }
 
   return render(request, 'listings/center_listings.html', context)
+
+def dashboard(request):
+  donation_centers = DonationCenter.objects.all()
+  dashboard_details = []
+  for donation_center in donation_centers:
+    center_donations = DonationRequest.objects.filter(donation_center=donation_center, status='PENDING')
+    Ap_count = center_donations.filter(allowed_blood_groups__icontains='A+')
+    Bp_count = center_donations.filter(allowed_blood_groups__icontains='B+')
+    ABp_count = center_donations.filter(allowed_blood_groups__icontains='AB+')
+    Op_count = center_donations.filter(allowed_blood_groups__icontains='O+')
+    On_count = center_donations.filter(allowed_blood_groups__icontains='O-')
+    ABn_count = center_donations.filter(allowed_blood_groups__icontains='AB-')
+    Bn_count = center_donations.filter(allowed_blood_groups__icontains='B-')
+    An_count = center_donations.filter(allowed_blood_groups__icontains='A-')
+    center_payload = {
+      'name': donation_center.name,
+      'A+': Ap_count,
+      'B+': Bp_count,
+      'AB+': ABp_count,
+      'O+': Op_count,
+      'O-': On_count,
+      'AB-': ABn_count,
+      'B-': Bn_count,
+      'A-': An_count
+    }
+    dashboard_details.append(center_payload)
+
+  context = {
+    'dashboard_details': dashboard_details
+  }
+
+  return render(request, 'listings/dashboard.html', context)

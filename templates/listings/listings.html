@@ -5,7 +5,54 @@
 {% block title %} | Browse Blood Donation Request Listings {% endblock %}
 
 {% block content %}
-<section id="showcase-inner" class="py-5 text-white">
+
+<section id="showcase-inner" class="showcase-search text-white py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <form action="{% url 'search' %}">
+            <!-- Form Row 1 -->
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="sr-only">Location</label>
+                <input type="text" name="keywords" class="form-control" placeholder="Location" value="{{ values.keywords }}">
+              </div>
+            </div>
+            <!-- Form Row 2 -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="sr-only">Blood Group</label>
+                <select name="blood_group" class="form-control">
+                  <option selected="true" disabled="disabled">Blood Group (Any)</option>
+                  {% for key,value in blood_group_choices.items %}
+                      <option value="{{ key }}"
+                      {% if key == values.blood_group %}
+                        selected
+                      {% endif %}
+                      >{{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <select name="donation_type" class="form-control">
+                  <option selected="true" disabled="disabled">Blood Product (All)</option>
+                  {% for key,value in donation_type_choices.items %}
+                      <option value="{{ key }}"
+                      {% if key == values.donation_type %}
+                        selected
+                      {% endif %}
+                      >{{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- <section id="showcase-inner" class="py-5 text-white">
     <div class="container">
       <div class="row text-center">
         <div class="col-md-12">
@@ -14,7 +61,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- Breadcrumb -->
   <section id="bc" class="mt-3">
@@ -25,10 +72,16 @@
             <a href="{% url 'index' %}">
               <i class="fas fa-home"></i> Home</a>
           </li>
-          <li class="breadcrumb-item active"> Browse Blood Donation Request Listings</li>
+          <li class="breadcrumb-item active">Blood Donation Requests</li>
         </ol>
       </nav>
     </div>
+  </section>
+
+  <section class="mt-3">   
+  <div class="container">
+      {% include "listings/dashboard.html" with objects=dashboard %}
+  </div>
   </section>
 
   <!-- Listings -->
@@ -39,7 +92,7 @@
           {% for listing in listings %}
           <div class="col-md-6 col-lg-4 mb-4">
               <div class="card listing-preview">
-                <img class="card-img-top" src="{{ listing.photo.url }}" alt="">
+                <img class="card-img-top" src="{{ listing.photo.url }}" alt=""  width="200" height="200">
                 <div class="card-img-overlay">
                   <h2>
                     <span class="badge badge-secondary text-white">{{ listing.blood_group }}</span>
@@ -56,12 +109,14 @@
                     <div class="col-12">
                       <i class="fas fa-th-large"></i> Blood Group: {{ listing.blood_group }}</div>
                     <div class="col-12">
-                      <i class="fas fa-car"></i> Blood Product: {{ listing.donation_type }}</div>
+                      <i class="fa fa-tint" aria-hidden="true"></i> Blood Product: {{ listing.donation_type }}</div>
+                    <div class="col-12">
+                        <i class="fa fa-check-circle-o" aria-hidden="true"></i> Allowed Donors: {{ listing.allowed_blood_groups }}</div>
                   </div>
                   <hr>
                   <div class="row py-2 text-secondary">
                     <div class="col-12">
-                      <i class="fas fa-user"></i> {{ listing.donation_center.name }}</div>
+                      <i class="fas fa-hospital"></i> {{ listing.donation_center.name }}</div>
                   </div>
                   <div class="row text-secondary">
                     <div class="col-12">
