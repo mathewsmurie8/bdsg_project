@@ -24,6 +24,7 @@ class DonationCenter(models.Model):
   address = map_fields.AddressField(max_length=200, null=True, blank=True)
   geolocation = map_fields.GeoLocationField(max_length=100, null=True, blank=True)
 
+
   def __str__(self):
     return self.name
 
@@ -62,6 +63,29 @@ class DonationRequest(models.Model):
   donation_for = models.ForeignKey(Contact, null=True, blank=True, on_delete=models.CASCADE)
   created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
   completed_date = models.DateTimeField(null=True, blank=True, max_length=255)
+  target_donations = models.IntegerField(default=1)
+  completed_donations = models.IntegerField(default=0)
+  allowed_blood_groups = models.CharField(max_length=255, null=True, blank=True)
+
+  def get_allowed_blood_groups(self, blood_group):
+    """Return allowed blood groups given a specific blood group."""
+    if blood_group == 'A+':
+      return 'A+ A- O+ O-'
+    if blood_group == 'O+':
+      return 'O+ O-'
+    if blood_group == 'B+':
+      return 'B+ B- O+ O-'
+    if blood_group == 'AB+':
+      return 'A+ O+ B+ AB+ A- O- B- AB-'
+    if blood_group == 'A-':
+      return 'O- A-'
+    if blood_group == 'O-':
+      return 'O-'
+    if blood_group == 'B-':
+      return 'B- O-'
+    if blood_group == 'AB-':
+      return 'AB- A- B- O-'
+    
 
   def send_sms_to_donors(self, message_type):
     """Send notification SMS to potential donors."""
@@ -86,15 +110,18 @@ class DonationRequest(models.Model):
 
   def save(self, *args, **kwargs):
       """Ensure validations are run and updated/created preserved."""
-      self.full_clean(exclude=None)
+      self.allowed_blood_groups = self.get_allowed_blood_groups(self.blood_group)
       if self.status == 'COMPLETED':
         self.completed_date = timezone.now()
-        self.send_sms_to_donors('COMPLETION')
+      super(DonationRequest, self).save(*args, **kwargs)
+      self.full_clean(exclude=None)
+      if self.target_donations == self.completed_donations:
+        # self.send_sms_to_donors('COMPLETION')
+        print('completed')
       else:
-        self.send_sms_to_donors('DONATION')
+        # self.send_sms_to_donors('DONATION')
         print('place holder')
 
-      super(DonationRequest, self).save(*args, **kwargs)
 
   def __str__(self):
     return self.name
@@ -105,3 +132,31 @@ class DonationRequestAppointment(models.Model):
   created_by = models.CharField(max_length=255, blank=True, null=True)
   appointment_status = models.CharField(default='PENDING', max_length=255, choices=DONATION_STATUS)
   appointment_date = models.DateTimeField(blank=True, null=True)
+  completed_date = models.DateTimeField(null=True, blank=True, max_length=255)
+
+  def send_donation_request_completion_email(self):
+    """Send notification email to donation center on activation."""
+    recipient_name = self.donation_request.donation_for.name
+    recipients = list(set(self.__class__.objects.filter(donation_request=self.donation_request).values_list('created_by', flat=True)))
+    recipients.append(self.donation_request.donation_center.email)
+    send_mail(
+      'Donation request for' + recipient_name + 'is completed',
+      'Dear,' + '\n' + 'Your account has been created',
+      'skidweezmurie@gmail.com',
+      recipients,
+      fail_silently=False
+    )
+
+  def save(self, *args, **kwargs):
+      """Ensure validations are run and updated/created preserved."""
+      self.full_clean(exclude=None)
+      if self.appointment_status == 'COMPLETED':
+        donation_request = self.donation_request
+        donation_request.completed_donations = donation_request.completed_donations + 1
+        donation_request.save()
+        self.completed_date = timezone.now()
+        if donation_request.target_donations == donation_request.completed_donations:
+          donation_request.status == 'COMPLETED'
+          donation_request.save()
+          self.send_donation_request_completion_email()
+      super(DonationRequestAppointment, self).save(*args, **kwargs)

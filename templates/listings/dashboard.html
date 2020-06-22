@@ -1,0 +1,39 @@
+{% load humanize %}
+<style>
+
+</style>
+<div style="overflow-x:auto;">
+<table class="content-table" width="90%">
+    <thead>
+        <tr>
+            <th>Donation Center</th>
+            <th>Distance</th>
+            <th>A+</th>
+            <th>B+</th>
+            <th>AB+</th>
+            <th>O+</th>
+            <th>O-</th>
+            <th>AB-</th>
+            <th>B-</th>
+            <th>A-</th>
+        </tr>
+    </thead>
+    {% if dashboard_details %}
+        {% for center in dashboard_details %}
+        <tr>
+            <td>
+                <a href={{ center.url }} class="btn btn-default btn-light text-left">{{ center.name }}</a></td>
+            <td>{{ center.distance }} Km away</td>
+            <td>{{ center.Ap_count }}</td>
+            <td>{{ center.Bp_count }}</td>
+            <td>{{ center.ABp_count }}</td>
+            <td>{{ center.Op_count }}</td>
+            <td>{{ center.On_count }}</td>
+            <td>{{ center.ABn_count }}</td>
+            <td>{{ center.Bn_count }}</td>
+            <td>{{ center.An_count }}</td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+</table>
+</div>

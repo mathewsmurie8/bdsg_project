@@ -11,17 +11,18 @@
       <div class="home-search p-5">
         <div class="overlay p-5">
           <h1 class="display-4 mb-4">
-            Blood Donation Just Got So Easy
+            Blood Donation Needs Portal
           </h1>
-          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae quas, asperiores eveniet vel nostrum magnam
-            voluptatum tempore! Consectetur, id commodi!</p>
+          <p class="lead">
+            This portal allows you to help a person in need of blood in 4 clicks of a mouse.
+          </p>
           <div class="search">
             <form action="{% url 'search' %}">
               <!-- Form Row 1 -->
               <div class="form-row">
                 <div class="col-md-12 mb-3">
-                  <label class="sr-only">Keywords</label>
-                  <input type="text" name="keywords" class="form-control" placeholder="Keyword (Location, Blood Group etc)">
+                  <label class="sr-only">Location</label>
+                  <input type="text" name="keywords" class="form-control" placeholder="Location Details">
                 </div>
               </div>
               <!-- Form Row 2 -->
@@ -65,7 +66,7 @@
             <!-- Listing 1 -->
             <div class="col-md-6 col-lg-4 mb-4">
               <div class="card listing-preview">
-                <img class="card-img-top" src="{{ listing.photo.url }}" alt="">
+                <img class="card-img-top" src="{{ listing.photo.url }}" alt="" width="200" height="200">
                 <div class="card-img-overlay">
                   <h2>
                     <span class="badge badge-secondary text-white">{{ listing.blood_group }}</span>
@@ -82,12 +83,14 @@
                     <div class="col-12">
                       <i class="fas fa-th-large"></i> Blood Group: {{ listing.blood_group }}</div>
                     <div class="col-12">
-                      <i class="fas fa-car"></i> Blood Product: {{ listing.donation_type }}</div>
+                      <i class="fa fa-tint" aria-hidden="true"></i> Blood Product: {{ listing.donation_type }}</div>
+                    <div class="col-12">
+                        <i class="fa fa-check-circle-o" aria-hidden="true"></i> Allowed Donors: {{ listing.allowed_blood_groups }}</div>
                   </div>
                   <hr>
                   <div class="row py-2 text-secondary">
                     <div class="col-12">
-                      <i class="fas fa-user"></i> {{ listing.donation_center.name }}</div>
+                      <i class="fas fa-hospital"></i> {{ listing.donation_center.name }}</div>
                   </div>
                   <div class="row text-secondary pb-2">
                     <div class="col-12">
@@ -116,22 +119,21 @@
           <i class="fas fa-comments fa-4x mr-4"></i>
           <hr>
           <h3>Blood Donor Sensitization</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
-            hic dignissimos ratione ea quae.</p>
+          <p>This portal is a resource to find all information you need about blood donation.</p>
         </div>
         <div class="col-md-4">
           <i class="fas fa-ambulance fa-4x mr-4"></i>
           <hr>
           <h3>Emergency Blood Drives</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
-            hic dignissimos ratione ea quae.</p>
+          <p>Send SMS notifications to eligible donors in case of an Emergency such as road accidents.</p>
         </div>
         <div class="col-md-4">
           <i class="fas fa-binoculars fa-4x mr-4"></i>
           <hr>
           <h3>Increase Visibility of Blood Donation Needs</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
-            hic dignissimos ratione ea quae.</p>
+          <p>Provide a listing of all blood donation requests as well as appointment creation facilities.
+            This will make donation much simpler for both the donor and donation centers.
+          </p>
         </div>
       </div>
     </div>

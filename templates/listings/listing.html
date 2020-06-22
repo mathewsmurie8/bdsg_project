@@ -9,7 +9,7 @@
     <div class="container">
       <div class="row text-center">
         <div class="col-md-12">
-          <h1 class="display-4">{{ listing.title }}</h1>
+          <h1 class="display-4">{{ listing.donation_center.name }}</h1>
           <p class="lead">
             <i class="fas fa-map-marker"></i> {{ listing.donation_center.address }}</p>
         </div>
@@ -26,9 +26,9 @@
             <a href="{% url 'index' %}">Home</a>
           </li>
           <li class="breadcrumb-item">
-            <a href="{% url 'listings' %}">Donation Requests Listings</a>
+            <a href="{% url 'listings' %}">Blood Donation Requests</a>
           </li>
-          <li class="breadcrumb-item active">{{ listing.title }}</li>
+          <li class="breadcrumb-item active">{{ listing.name }}</li>
         </ol>
       </nav>
     </div>
@@ -40,11 +40,11 @@
   <!-- Listing -->
   <section id="listing" class="py-4">
     <div class="container">
-      <a href="{% url 'listings' %}" class="btn btn-light mb-4">Donation Requests Listings</a>
+      <!-- <a href="{% url 'listings' %}" class="btn btn-light mb-4">Donation Requests Listings</a> -->
       <div class="row">
         <div class="col-md-9">
           <!-- Home Main Image -->
-          <img src="{{ listing.photo.url }}" alt="" class="img-main img-fluid mb-3">
+          <img src="{{ listing.photo.url }}" alt="" width="200" height="200">
           <!-- Thumbnails -->
           <div class="row mb-5 thumbs">
             {% if listing.photo_1 %}
@@ -95,7 +95,7 @@
             <div class="col-md-12">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-money-bill-alt"></i> Blood Group:
+                  <i class="fa fa-tint" aria-hidden="true"></i> Blood Group:
                   <span class="float-right">{{ listing.blood_group }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
@@ -111,16 +111,21 @@
                   <span class="float-right">{{ listing.created | timesince }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-bed"></i> Donation Centre:
+                  <i class="fas fa-hospital"></i> Donation Centre:
                   <span class="float-right">{{ listing.donation_center.name }}
                   </span>
                 </li>
+                <li class="list-group-item text-secondary">
+                    <i class="fas fa-hospital"></i> Status:
+                    <span class="float-right">{{ listing.status }}
+                    </span>
+                  </li>
               </ul>
             </div>
             <div class="col-md-12">
                 <ul class="list-group list-group-flush">
                 <li class="list-group-item text-secondary">
-                <i class="fas fa-bed"> Description:
+                <i class="fa fa-audio-description" aria-hidden="true"> Description:
                     {% if listing.description %}
                     <span class="float-right">{{ listing.description }}</span>
                     {% endif %}

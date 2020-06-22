@@ -21,7 +21,14 @@ def contact(request):
     if request.user.is_authenticated:
       user_id = request.user.id
       has_contacted = Contact.objects.all().filter(listing_id=listing_id, user_id=user_id)
-      if has_contacted:
+      appointment_status = DonationRequestAppointment.objects.filter(created_by=email)
+      if has_contacted and appointment_status and appointment_status[0] == 'PENDING':
+        messages.error(request, 'You have already made an inquiry for this listing')
+        return redirect('/listings/'+listing_id)
+    else:
+      has_contacted = Contact.objects.all().filter(listing_id=listing_id, email=email)
+      appointment_status = DonationRequestAppointment.objects.filter(created_by=email)
+      if has_contacted and appointment_status and appointment_status[0] == 'PENDING':
         messages.error(request, 'You have already made an inquiry for this listing')
         return redirect('/listings/'+listing_id)
 
@@ -31,10 +38,9 @@ def contact(request):
       for contact in contacts:
         don_request_appointments = DonationRequestAppointment.objects.filter(created_by=email)
         for don_request_appointment in don_request_appointments:
-          don_request = don_request_appointment.donation_request
-          if don_request.status == 'COMPLETED':
-            if don_request.completed_date:
-              duration = timezone.now() - don_request.completed_date
+          if don_request_appointment.appointment_status == 'COMPLETED':
+            if don_request_appointment.completed_date:
+              duration = timezone.now() - don_request_appointment.completed_date
               if int(duration.days) < int(42):
                 messages.error(request, 'You are not eligible to donate blood since you donated blood ' + str(duration.days) + ' days ago')
                 return redirect('/listings/'+listing_id)
@@ -56,7 +62,7 @@ def contact(request):
     send_mail(
       'Blood Donation Appointment',
       'Dear ' + donation_center_name + ', \n' + name + ' has made an inquiry for donation request with title ' + donation_request.name + '. \n' + 'The donor email is ' + email + ' and phone number is ' + phone + '. The appointment date is ' + apt_date + '.' + '\n' + 'Click on http://127.0.0.1:8000/admin/donations/donationrequestappointment/' + appointment_id + '/' + ' to access the appointment details.',
-      'mathewsmurie@gmail.com',
+      'skidweezmurie@gmail.com',
       [recipient],
       fail_silently=False
     )

@@ -32,14 +32,15 @@
   <!-- Alerts -->
   {% include 'partials/_alerts.html' %}
 
-  <section id="dashboard" class="py-4">
+  <section class="py-4">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <h2>Welcome {{ user.first_name }}</h2>
           {% if contacts %}
             <p>Here are the blood donation requests listings that you have created an appointment for</p>
-            <table class="table">
+            <div style="overflow-x:auto;">
+            <table class="content-table">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -59,12 +60,13 @@
                     <td>{{ contact.email }}</td>
                     <td>{{ contact.phone }}</td>
                     <td>
-                      <a class="btn btn-light" href="{% url 'listing' contact.listing_id %}">View Listing</a>
+                      <a class="btn btn-primary btn-block" href="{% url 'listing' contact.listing_id %}">View donation request</a>
                     </td>
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
+            </div>
           {% else %}
             <p>You have not made any inquiries</p>
           {% endif %}
