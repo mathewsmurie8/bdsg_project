@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django_google_maps',
     'folium',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', '')
+PHONENUMBER_DB_FORMAT = 'E164'
