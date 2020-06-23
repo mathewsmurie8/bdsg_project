@@ -5,36 +5,59 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from donations.choices import blood_group_choices, donation_type_choices
-from donations.models import DonationRequest, DonationCenter
+from donations.models import DonationRequest, DonationCenter, can_donate_blood_to
+from accounts.models import BDSGUser
 
 # Create your views here.
 def index(request):
-  donations = DonationRequest.objects.all().filter(status='PENDING')
-
-  donation_centers = DonationCenter.objects.all()
+  latitude = -1.2672428
+  longitude = 36.8373071
+  donations = DonationRequest.objects.filter(status='PENDING')
+  if request.user.is_authenticated:
+    bdsg_user_exists = BDSGUser.objects.filter(user=request.user).exists()
+    if bdsg_user_exists:
+      blood_group_to_donate_to = can_donate_blood_to(bdsg_user.blood_group)
+      donations = DonationRequest.objects.filter(status='PENDING', blood_group__in=blood_group_to_donate_to)
+      bdsg_user = BDSGUser.objects.get(user=request.user)
+      latitude = float(bdsg_user.latitude)
+      longitude = float(bdsg_user.longitude)
+  donation_centers = DonationCenter.objects.filter(address__isnull=False)
   dashboard_details = []
   for donation_center in donation_centers:
-    center_donations = DonationRequest.objects.filter(donation_center=donation_center, status='PENDING')
-    Ap_count = center_donations.filter(allowed_blood_groups__icontains='A+')
-    Bp_count = center_donations.filter(allowed_blood_groups__icontains='B+')
-    ABp_count = center_donations.filter(allowed_blood_groups__icontains='AB+')
-    Op_count = center_donations.filter(allowed_blood_groups__icontains='O+')
-    On_count = center_donations.filter(allowed_blood_groups__icontains='O-')
-    ABn_count = center_donations.filter(allowed_blood_groups__icontains='AB-')
-    Bn_count = center_donations.filter(allowed_blood_groups__icontains='B-')
-    An_count = center_donations.filter(allowed_blood_groups__icontains='A-')
-    center_payload = {
+      center_distance = distance((latitude,longitude), (donation_center.geolocation.lat, donation_center.geolocation.lon))
+      center_donations = DonationRequest.objects.filter(donation_center=donation_center, status='PENDING')
+      Ap_can_donation_to = can_donate_blood_to('A+')
+      Ap_count = center_donations.filter(blood_group__in=Ap_can_donation_to).count()
+      Bp_can_donation_to = can_donate_blood_to('B+')
+      Bp_count = center_donations.filter(blood_group__in=Bp_can_donation_to).count()
+      ABp_can_donation_to = can_donate_blood_to('AB+')
+      ABp_count = center_donations.filter(blood_group__in=ABp_can_donation_to).count()
+      Op_can_donation_to = can_donate_blood_to('O+')
+      Op_count = center_donations.filter(blood_group__in=Op_can_donation_to).count()
+      On_can_donation_to = can_donate_blood_to('O-')
+      On_count = center_donations.filter(blood_group__in=On_can_donation_to).count()
+      ABn_can_donation_to = can_donate_blood_to('AB-')
+      ABn_count = center_donations.filter(blood_group__in=ABn_can_donation_to).count()
+      Bn_can_donation_to = can_donate_blood_to('B-')
+      Bn_count = center_donations.filter(blood_group__in=Bn_can_donation_to).count()
+      An_can_donation_to = can_donate_blood_to('A-')
+      An_count = center_donations.filter(blood_group__in=An_can_donation_to).count()
+      url = 'http://127.0.0.1:8000/donations/' + str(donation_center.id)
+      center_payload = {
+      'url': url,
+      'center_id': donation_center.id,
       'name': donation_center.name,
-      'A+': Ap_count,
-      'B+': Bp_count,
-      'AB+': ABp_count,
-      'O+': Op_count,
-      'O-': On_count,
-      'AB-': ABn_count,
-      'B-': Bn_count,
-      'A-': An_count
-    }
-    dashboard_details.append(center_payload)
+      'distance': center_distance,
+      'Ap_count': Ap_count,
+      'Bp_count': Bp_count,
+      'ABp_count': ABp_count,
+      'Op_count': Op_count,
+      'On_count': On_count,
+      'ABn_count': ABn_count,
+      'Bn_count': Bn_count,
+      'An_count': An_count
+      }
+      dashboard_details.append(center_payload)
 
   paginator = Paginator(donations, 6)
   page = request.GET.get('page')
@@ -90,10 +113,18 @@ def distance(origin, destination):
     return round(d, 2)
 
 def centers(request):
+    latitude = -1.2672428
+    longitude = 36.8373071
+    if request.user.is_authenticated:
+      bdsg_user_exists = BDSGUser.objects.filter(user=request.user).exists()
+      if bdsg_user_exists:
+        bdsg_user = BDSGUser.objects.get(user=request.user)
+        latitude = float(bdsg_user.latitude)
+        longitude = float(bdsg_user.longitude)
     # Get all donation centers
     centers = DonationCenter.objects.all()
     # Create map object
-    m = folium.Map(location=[-1.2672428,36.8373071], zoom_start=12)
+    m = folium.Map(location=[latitude,longitude], zoom_start=12)
 
     # Global tooltip
     tooltip = 'Click for more info.'
@@ -104,7 +135,7 @@ def centers(request):
       center_name = center.address + ' ' + center.name
       center_name = center_name.replace(' ', '+')
       center_donations_url = 'http://127.0.0.1:8000/donations/' + str(center.id)
-      center_distance = distance((-1.2672428,36.8373071), (center.geolocation.lat, center.geolocation.lon))
+      center_distance = distance((latitude,longitude), (center.geolocation.lat, center.geolocation.lon))
       folium.Marker([center.geolocation.lat, center.geolocation.lon],
       popup='<strong>' + center.name + '</strong> \n' + str(center_distance) + 'Km away' + '\n'  + '<a href=' + center_donations_url + ' class="btn btn-primary btn-block">view donation requests</a>' + '\n <a href=https://www.google.com/maps/search/' + center_name + ' class="btn btn-primary btn-block" target="_blank">view on google map</a>',
       tooltip=tooltip).add_to(m)
@@ -123,6 +154,14 @@ def center_donations(request, center_id):
   donation_center = get_object_or_404(DonationCenter, pk=center_id)
   center_donations = DonationRequest.objects.filter(
     donation_center=donation_center, status='PENDING')
+  if request.user.is_authenticated:
+      bdsg_user_exists = BDSGUser.objects.filter(user=request.user).exists()
+      if bdsg_user_exists:
+        bdsg_user = BDSGUser.objects.get(user=request.user)
+        blood_group_to_donate_to = can_donate_blood_to(bdsg_user.blood_group)
+        center_donations = DonationRequest.objects.filter(
+          status='PENDING', blood_group__in=blood_group_to_donate_to,
+          donation_center=donation_center)
 
   context = {
     'blood_group_choices': blood_group_choices,
@@ -133,30 +172,51 @@ def center_donations(request, center_id):
   return render(request, 'listings/center_listings.html', context)
 
 def dashboard(request):
-  donation_centers = DonationCenter.objects.all()
+  latitude = -1.2672428
+  longitude = 36.8373071
+  if request.user.is_authenticated:
+    bdsg_user_exists = BDSGUser.objects.filter(user=request.user).exists()
+    if bdsg_user_exists:
+      bdsg_user = BDSGUser.objects.get(user=request.user)
+      latitude = float(bdsg_user.latitude)
+      longitude = float(bdsg_user.longitude)
+  donation_centers = DonationCenter.objects.filter(address__isnull=False)
   dashboard_details = []
   for donation_center in donation_centers:
-    center_donations = DonationRequest.objects.filter(donation_center=donation_center, status='PENDING')
-    Ap_count = center_donations.filter(allowed_blood_groups__icontains='A+')
-    Bp_count = center_donations.filter(allowed_blood_groups__icontains='B+')
-    ABp_count = center_donations.filter(allowed_blood_groups__icontains='AB+')
-    Op_count = center_donations.filter(allowed_blood_groups__icontains='O+')
-    On_count = center_donations.filter(allowed_blood_groups__icontains='O-')
-    ABn_count = center_donations.filter(allowed_blood_groups__icontains='AB-')
-    Bn_count = center_donations.filter(allowed_blood_groups__icontains='B-')
-    An_count = center_donations.filter(allowed_blood_groups__icontains='A-')
-    center_payload = {
+      center_distance = distance((latitude,longitude), (donation_center.geolocation.lat, donation_center.geolocation.lon))
+      center_donations = DonationRequest.objects.filter(donation_center=donation_center, status='PENDING')
+      Ap_can_donation_to = can_donate_blood_to('A+')
+      Ap_count = center_donations.filter(blood_group__in=Ap_can_donation_to).count()
+      Bp_can_donation_to = can_donate_blood_to('B+')
+      Bp_count = center_donations.filter(blood_group__in=Bp_can_donation_to).count()
+      ABp_can_donation_to = can_donate_blood_to('AB+')
+      ABp_count = center_donations.filter(blood_group__in=ABp_can_donation_to).count()
+      Op_can_donation_to = can_donate_blood_to('O+')
+      Op_count = center_donations.filter(blood_group__in=Op_can_donation_to).count()
+      On_can_donation_to = can_donate_blood_to('O-')
+      On_count = center_donations.filter(blood_group__in=On_can_donation_to).count()
+      ABn_can_donation_to = can_donate_blood_to('AB-')
+      ABn_count = center_donations.filter(blood_group__in=ABn_can_donation_to).count()
+      Bn_can_donation_to = can_donate_blood_to('B-')
+      Bn_count = center_donations.filter(blood_group__in=Bn_can_donation_to).count()
+      An_can_donation_to = can_donate_blood_to('A-')
+      An_count = center_donations.filter(blood_group__in=An_can_donation_to).count()
+      url = 'http://127.0.0.1:8000/donations/' + str(donation_center.id)
+      center_payload = {
+      'url': url,
+      'center_id': donation_center.id,
       'name': donation_center.name,
-      'A+': Ap_count,
-      'B+': Bp_count,
-      'AB+': ABp_count,
-      'O+': Op_count,
-      'O-': On_count,
-      'AB-': ABn_count,
-      'B-': Bn_count,
-      'A-': An_count
-    }
-    dashboard_details.append(center_payload)
+      'distance': center_distance,
+      'Ap_count': Ap_count,
+      'Bp_count': Bp_count,
+      'ABp_count': ABp_count,
+      'Op_count': Op_count,
+      'On_count': On_count,
+      'ABn_count': ABn_count,
+      'Bn_count': Bn_count,
+      'An_count': An_count
+      }
+      dashboard_details.append(center_payload)
 
   context = {
     'dashboard_details': dashboard_details
