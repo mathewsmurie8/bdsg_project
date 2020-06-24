@@ -78,7 +78,7 @@ class DonationCenter(models.Model):
     send_mail(
       'Account activation',
       'Dear ' + self.name + ', \n' + 'Your account has been created',
-      'skidweezmurie@gmail.com',
+      'mathewsmurie@gmail.com',
       [recipient],
       fail_silently=False
     )
@@ -200,7 +200,7 @@ class DonationRequestAppointment(models.Model):
     send_mail(
       'Donation request for' + recipient_name + 'is completed',
       'Dear ' + donation_center_name + ',' + '\n' + 'Blood donation target for ' + recipient_name + ' has reached its target of ' + self.donation_request.target_donations + ' pints.',
-      'skidweezmurie@gmail.com',
+      'mathewsmurie@gmail.com',
       recipients,
       fail_silently=False
     )
@@ -212,7 +212,7 @@ class DonationRequestAppointment(models.Model):
     send_mail(
       'Blood Donation Target Reached',
       'Dear ' + recipient_name + ', ' + '\n' + 'Your blood donation request made at ' + self.donation_request.donation_center.name + ' has reached its target of ' + self.donation_request.target_donations + ' pints.',
-      'skidweezmurie@gmail.com',
+      'mathewsmurie@gmail.com',
       recipients,
       fail_silently=False
     )
