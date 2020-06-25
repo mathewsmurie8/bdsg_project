@@ -1,10 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponse
-from listings.choices import price_choices, bedroom_choices, state_choices
 
-from listings.models import Listing
-from realtors.models import Realtor
 from donations.choices import blood_group_choices, donation_type_choices
 from donations.models import DonationRequest, DonationCenter, can_donate_blood_to
 from accounts.models import BDSGUser

@@ -1,12 +1,10 @@
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from .choices import price_choices, bedroom_choices, state_choices
 from donations.choices import blood_group_choices, donation_type_choices
 from donations.models import DonationRequest, DonationCenter, can_donate_blood_to
 from donations.views import distance
 from accounts.models import BDSGUser
 
-from .models import Listing
 
 def index(request):
   latitude = -1.2672428
