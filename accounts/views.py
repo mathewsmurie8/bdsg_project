@@ -42,10 +42,6 @@ def register(request):
             phone_number = PhoneNumber.from_string(phone_number=phone, region='KE').as_e164
             return redirect('register')
           BDSGUser.objects.create(user=user, phone=phone, blood_group=blood_group, address=address, phone_number=phone_number)
-          # Login after register
-          # auth.login(request, user)
-          # messages.success(request, 'You are now logged in')
-          # return redirect('index')
           user.save()
           messages.success(request, 'You are now registered and can log in')
           return redirect('login')

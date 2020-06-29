@@ -50,10 +50,8 @@ def contact(request):
             if don_request_appointment.completed_date:
               duration = timezone.now() - don_request_appointment.completed_date
               donation_date = don_request_appointment.completed_date
-              # donation_date = datetime.datetime.strptime(donation_date, "%Y-%m-%dT%H:%M")
               don_date = donation_date.strftime("%B %d %Y at %I:%M %p")
               earliest_don_date = don_request_appointment.completed_date + datetime.timedelta(days=42)
-              # earliest_donation_date = datetime.datetime.strptime(earliest_don_date, "%Y-%m-%dT%H:%M")
               earliest_donation_date = earliest_don_date.strftime("%B %d %Y at %I:%M %p")
 
 
