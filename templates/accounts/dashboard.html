@@ -37,6 +37,7 @@
       <div class="row">
         <div class="col-md-12">
           <h2>Welcome {{ user.first_name }}</h2>
+
           {% if contacts %}
             <p>Here are the blood donation requests listings that you have created an appointment for</p>
             <div style="overflow-x:auto;">
@@ -72,6 +73,12 @@
           {% endif %}
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="py-4">
+    <div class="container">
+        {% include 'accounts/member_details.html' %}
     </div>
   </section>
   {% endblock %}

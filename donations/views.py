@@ -112,6 +112,30 @@ def distance(origin, destination):
 
     return round(d, 2)
 
+def get_closest_donation_centers(user_latitude, user_longitude):
+  mvp_centers = []
+  centers = DonationCenter.objects.filter(geolocation__isnull=False)
+  for center in centers:
+    center_name = center.address + ' ' + center.name
+    center_name = center_name.replace(' ', '+')
+    center_distance = distance((user_latitude,user_longitude), (center.geolocation.lat, center.geolocation.lon))
+    # center_donations_url = '<a href=http://127.0.0.1:8000/donations/' + str(center.id) + ' class="btn btn-primary btn-block">view donation requests</a>'
+    center_google_url = '<a href=https://www.google.com/maps/search/' + center_name + ' class="btn btn-primary btn-block" target="_blank">view on google map</a>'
+
+    center_payload = {
+      'center': center,
+      'center_distance': center_distance,
+      # 'center_donations_url': center_donations_url,
+      'center_google_url': center_google_url
+    }
+    mvp_centers.append(center_payload)
+  # sort by distance
+  mvp_centers = sorted(mvp_centers, key = lambda i: i['center_distance'])
+  # get first 3 items
+  mvp_centers = mvp_centers[:3]
+  return mvp_centers
+
+
 def centers(request):
     latitude = -1.2672428
     longitude = 36.8373071
