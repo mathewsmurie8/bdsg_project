@@ -1,0 +1,89 @@
+{% block content %}
+<section id="register" class="bg-light py-5">
+      <div class="row">
+        <div class="col-md-12 mx-auto">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h4>
+                <i class="fas fa-user-plus"></i> Update Location and Contact Details</h4>
+            </div>
+            <div class="card-body">
+              <!-- Alerts -->
+              {% include 'partials/_alerts.html' %}
+              <form action="{% url 'dashboard' %}" method="POST">
+                  {% csrf_token %}
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="text" name="phone" class="form-control" {% if user.is_authenticated %} value="{{ bdsg_user.phone_number }}" {% endif %} required>
+                </div>
+                <div class="form-group">
+                    <label for="blood_group">Blood Group</label>
+                    <input type="text" name="blood_group" class="form-control" {% if user.is_authenticated %} value="{{ bdsg_user.blood_group }}" {% endif %} required>
+                    <!-- <select name="blood_group" class="form-control">
+                        <option selected="true" disabled="disabled">Blood Group</option>
+                        {% for key,value in blood_group_choices.items %}
+                            <option value="{{ key }}"
+                            {% if key == values.blood_group %}
+                            selected
+                            {% endif %}
+                            >{{ value }}</option>
+                        {% endfor %}
+                    </select> -->
+                  </div>
+                <div class="form-group">
+                    <label for="address">Physical Address</label>
+                    <input type="address" name="address" class="form-control" {% if user.is_authenticated %} value="{{ bdsg_user.address }}" {% endif %} required>
+                  </div>
+                <input type="submit" value="Update Location and Contact Details" class="btn btn-secondary btn-block">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="register" class="bg-light py-5">
+        <div class="row">
+          <div class="col-md-12 mx-auto">
+            <div class="card">
+              <div class="card-header bg-primary text-white">
+                <h4>
+                  <i class="fas fa-user-plus"></i> Update Member Details</h4>
+              </div>
+              <div class="card-body">
+                <!-- Alerts -->
+                {% include 'partials/_alerts.html' %}
+                <form action="{% url 'dashboard' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="first_name">First Name</label>
+                        <input type="text" name="first_name" class="form-control" {% if user.is_authenticated %} value="{{ bdsg_user.user.first_name }}" {% endif %} required>
+                      </div>
+                      <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" {% if user.is_authenticated %} value="{{ bdsg_user.user.last_name }}" {% endif %} required>
+                      </div>
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control" {% if user.is_authenticated %} value="{{ bdsg_user.user.username }}" {% endif %} required>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" {% if user.is_authenticated %} value="{{ bdsg_user.user.email }}" {% endif %} required>
+                  </div>
+                  <div class="form-group">
+                    <label for="password2">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Confirm Password</label>
+                    <input type="password" name="password2" class="form-control" required>
+                  </div>
+                  <input type="submit" value="Update Member Details" class="btn btn-secondary btn-block">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+  {% endblock %}

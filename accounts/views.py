@@ -79,8 +79,65 @@ def logout(request):
 
 def dashboard(request):
   user_contacts = Contact.objects.order_by('-contact_date').filter(user_id=request.user.id)
+  bdsg_user = BDSGUser.objects.get(user=request.user)
+  if request.method == 'POST':
+    # Get form values
+    # import pdb
+    # pdb.set_trace()
+    if request.POST.get('phone'):
+      phone = request.POST['phone']
+      blood_group = request.POST['blood_group']
+      address = request.POST['address']
+      try:
+        phone_number = phonenumbers.parse(phone)
+      except Exception:
+        messages.warning(
+            request, "The phone number is not valid."
+        )
+        phone_number = PhoneNumber.from_string(phone_number=phone, region='KE').as_e164
+      bdsg_user.address = address
+      bdsg_user.blood_group = blood_group
+      bdsg_user.phone = phone
+      bdsg_user.phone_number = phone_number
+      bdsg_user.save()
+      messages.success(request, 'Your details have been successfully updated.')
+      return redirect('dashboard')
+    else:
+      first_name = request.POST['first_name']
+      last_name = request.POST['last_name']
+      username = request.POST['username']
+      email = request.POST['email']
+      password = request.POST['password']
+      password2 = request.POST['password2']
+
+      # Check if passwords match
+      if password == password2:
+        # Check username
+        if User.objects.filter(username=username).exclude(id=request.user.id).exists():
+          messages.error(request, 'That username is taken')
+          return redirect('dashboard')
+        else:
+          if User.objects.filter(email=email).exclude(id=request.user.id).exists():
+            messages.error(request, 'That email is being used by another user')
+            return redirect('dashboard')
+          else:
+            # Looks good
+            user = request.user
+            user.username = username
+            user.set_password(password)
+            user.email = email
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+            messages.success(request, 'Your details have been successfully updated.')
+            return redirect('login')
+      else:
+        messages.error(request, 'Passwords do not match')
+        return redirect('dashboard')
 
   context = {
-    'contacts': user_contacts
+    'contacts': user_contacts,
+    'blood_group_choices': blood_group_choices,
+    'bdsg_user': bdsg_user
   }
   return render(request, 'accounts/dashboard.html', context)

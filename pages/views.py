@@ -5,12 +5,13 @@ from django.http import HttpResponse
 from donations.choices import blood_group_choices, donation_type_choices
 from donations.models import DonationRequest, DonationCenter, can_donate_blood_to
 from accounts.models import BDSGUser
-from donations.views import distance
+from donations.views import distance, get_closest_donation_centers
 
 def index(request):
     latitude = -1.2672428
     longitude = 36.8373071
     listings = DonationRequest.objects.filter(status='PENDING')
+    mvp_centers = None
     if request.user.is_authenticated:
         bdsg_user_exists = BDSGUser.objects.filter(user=request.user).exists()
         if bdsg_user_exists:
@@ -19,6 +20,7 @@ def index(request):
             listings = DonationRequest.objects.filter(status='PENDING', blood_group__in=blood_group_to_donate_to)
             latitude = float(bdsg_user.latitude)
             longitude = float(bdsg_user.longitude)
+            mvp_centers = get_closest_donation_centers(latitude, longitude)
     donation_centers = DonationCenter.objects.filter(address__isnull=False)
     dashboard_details = []
     for donation_center in donation_centers:
@@ -64,7 +66,8 @@ def index(request):
         'listings': listings,
         'blood_group_choices': blood_group_choices,
         'donation_type_choices': donation_type_choices,
-        'dashboard_details': dashboard_details
+        'dashboard_details': dashboard_details,
+        'mvp_centers': mvp_centers
     }
 
     return render(request, 'pages/index.html', context)
