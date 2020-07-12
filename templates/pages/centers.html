@@ -1,10 +1,13 @@
 {% extends 'base.html' %} 
 
+{% load humanize %}
+
 {% load static %}
 
 {% block title %} | Donation Centers {% endblock %}
 
 {% block content %}
+
 <section id="showcase-inner" class="showcase-search text-white py-5">
     <div class="container">
       <div class="row text-center">
@@ -74,7 +77,11 @@
       {% if centers %}
         {% for center in centers %}
         <div class="col-md-4">
-            <img src="{{ center.photo.url }}" alt="" class="rounded-circle mb-3" width="200" height="200">
+            {% if center.photo %}
+              <img src="{{ center.photo.url }}" alt="" class="rounded-circle mb-3" width="200" height="200">
+            {% else %}
+              <img src="{% static 'img/default.png' %}" alt="" width="200" height="200">
+            {% endif %}
             <h4>{{ center.name }}</h4>
             <p class="text-success">
               <i class="fas fa-award text-success mb-3"></i> Donation Centre</p>

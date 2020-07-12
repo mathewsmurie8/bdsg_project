@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.contrib.postgres.search import SearchVector
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from donations.choices import blood_group_choices, donation_type_choices
 from donations.models import DonationRequest, DonationCenter, can_donate_blood_to
@@ -88,7 +89,10 @@ def search(request):
   if 'keywords' in request.GET:
     keywords = request.GET['keywords']
     if keywords:
-      queryset_list = queryset_list.filter(donation_center__address__icontains=keywords)
+      # queryset_list = queryset_list.filter(donation_center__address__search=keywords)
+      queryset_list = queryset_list.annotate(
+        search=SearchVector('donation_center__address'),
+          ).filter(search=keywords)
 
   # Blood Group
   if 'blood_group' in request.GET:

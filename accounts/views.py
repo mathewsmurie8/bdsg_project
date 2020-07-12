@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from contacts.models import Contact
 from accounts.models import BDSGUser
 from donations.choices import blood_group_choices
+from donations.models import DonationRequest, DonationRequestAppointment
 from phonenumber_field.phonenumber import PhoneNumber
 
 def register(request):
@@ -78,12 +79,19 @@ def logout(request):
     return redirect('index')
 
 def dashboard(request):
+  donor_contacts = []
   user_contacts = Contact.objects.order_by('-contact_date').filter(user_id=request.user.id)
+  if user_contacts:
+    for contact in user_contacts:
+      donation_request_appointment = DonationRequestAppointment.objects.get(donation_request__id=contact.listing_id)
+      contact_payload = {
+        'contact': contact,
+        'donation_request_appointment': donation_request_appointment
+      }
+      donor_contacts.append(contact_payload)
   bdsg_user = BDSGUser.objects.get(user=request.user)
   if request.method == 'POST':
     # Get form values
-    # import pdb
-    # pdb.set_trace()
     if request.POST.get('phone'):
       phone = request.POST['phone']
       blood_group = request.POST['blood_group']
@@ -134,9 +142,8 @@ def dashboard(request):
       else:
         messages.error(request, 'Passwords do not match')
         return redirect('dashboard')
-
   context = {
-    'contacts': user_contacts,
+    'contacts': donor_contacts,
     'blood_group_choices': blood_group_choices,
     'bdsg_user': bdsg_user
   }

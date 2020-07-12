@@ -49,19 +49,24 @@
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 {% for contact in contacts %}
                   <tr>
-                    <td>{{ contact.id }}</td>
-                    <td>{{ contact.listing }}</td>
-                    <td>{{ contact.name }}</td>
-                    <td>{{ contact.email }}</td>
-                    <td>{{ contact.phone }}</td>
+                    <td>{{ contact.contact.id }}</td>
+                    <td>{{ contact.contact.listing }}</td>
+                    <td>{{ contact.contact.name }}</td>
+                    <td>{{ contact.contact.email }}</td>
+                    <td>{{ contact.contact.phone }}</td>
+                    <td>{{ contact.donation_request_appointment.appointment_date }}</td>
+                    <td>{{ contact.donation_request_appointment.appointment_status }}</td>
                     <td>
-                      <a class="btn btn-primary btn-block" href="{% url 'listing' contact.listing_id %}">View donation request</a>
+                      <a class="btn btn-primary btn-block" href="{% url 'listing' contact.contact.listing_id %}">View donation request</a>
                     </td>
                   </tr>
                 {% endfor %}
