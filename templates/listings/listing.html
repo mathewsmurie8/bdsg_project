@@ -2,6 +2,8 @@
 
 {% load humanize %}
 
+{% load static %}
+
 {% block title %} | {{ listing.title }} {% endblock %}
 
 {% block content %}
@@ -43,8 +45,12 @@
       <!-- <a href="{% url 'listings' %}" class="btn btn-light mb-4">Donation Requests Listings</a> -->
       <div class="row">
         <div class="col-md-9">
+          {% if listing.photo %}
           <!-- Home Main Image -->
-          <img src="{{ listing.photo.url }}" alt="" width="200" height="200">
+            <img src="{{ listing.photo.url }}" alt="" width="200" height="200">
+          {% else %}
+            <img src="{% static 'img/default.png' %}" alt="" width="200" height="200">
+          {% endif %}
           <!-- Thumbnails -->
           <!-- <div class="row mb-5 thumbs">
             {% if listing.photo_1 %}
@@ -144,7 +150,11 @@
         </div>
         <div class="col-md-3">
           <div class="card mb-3">
-            <img class="card-img-top" src="{{ listing.donation_center.photo.url }}" alt="">
+            {% if listing.donation_center.photo %}
+              <img class="card-img-top" src="{{ listing.donation_center.photo.url }}" alt="">
+            {% else %}
+              <img src="{% static 'img/default.png' %}" alt="" width="200" height="200">
+            {% endif %}
             <div class="card-body">
               <h5 class="card-title">Donation Centre</h5>
               <h6 class="text-secondary">{{ listing.donation_center.name }}</h6>

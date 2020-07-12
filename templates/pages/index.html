@@ -2,6 +2,8 @@
 
 {% load humanize %}
 
+{% load static %}
+
 {% block title %} | Welcome {% endblock %}
 
 {% block content %}
@@ -66,7 +68,11 @@
             <!-- Listing 1 -->
             <div class="col-md-6 col-lg-4 mb-4">
               <div class="card listing-preview">
-                <img class="card-img-top" src="{{ listing.photo.url }}" alt="" width="200" height="200">
+                {% if listing.photo %}
+                  <img class="card-img-top" src="{{ listing.photo.url }}" alt="" width="200" height="200">
+                {% else %}
+                  <img src="{% static 'img/default.png' %}" alt="" width="200" height="200">
+                {% endif %}
                 <div class="card-img-overlay">
                   <h2>
                     <span class="badge badge-secondary text-white">{{ listing.blood_group }}</span>
@@ -119,7 +125,11 @@
           {% if mvp_centers %}
             {% for center in mvp_centers %}
             <div class="col-md-4">
-                <img src="{{ center.center.photo.url }}" alt="" class="rounded-circle mb-3" width="200" height="200">
+                {% if center.center.photo %}
+                  <img src="{{ center.center.photo.url }}" alt="" class="rounded-circle mb-3" width="200" height="200">
+                {% else %}
+                  <img src="{% static 'img/default.png' %}" alt="" width="200" height="200">
+                {% endif %}
                 <h4>{{ center.center.name }}</h4>
                 <p class="text-success">
                   <i class="fas fa-award text-success mb-3"></i> Donation Centre</p>
@@ -136,9 +146,14 @@
             {% endfor %}
           {% else %}
             <div class="col-md-12">
-              <p>No location information available. Please login to see donation centers near you</p>
+              <section id="work" class="bg-light text-black text-center">
+                <h2 class="display-4">Find a Donation Center near you</h2>
+                <h4>Be a blood donor today and help save a life</h4>
+                <hr>
+                <a href="{% url 'centers' %}" class="btn btn-secondary text-white btn-lg">View Donation Centers</a>
+              </section>
             </div>
-          {% endif %}       
+          {% endif %}
         </div>
       </div>
     </section>

@@ -2,6 +2,8 @@
 
 {% load humanize %}
 
+{% load static %}
+
 {% block title %} | Search Results {% endblock %}
 
 {% block content %}
@@ -78,7 +80,11 @@
           {% for listing in listings %}
           <div class="col-md-6 col-lg-4 mb-4">
               <div class="card listing-preview">
-                <img class="card-img-top" src="{{ listing.photo.url }}" alt=""  width="200" height="200">
+                {% if listing.photo %}
+                  <img class="card-img-top" src="{{ listing.photo.url }}" alt=""  width="200" height="200">
+                {% else %}
+                  <img src="{% static 'img/default.png' %}" alt="" width="200" height="200">
+                {% endif %}
                 <div class="card-img-overlay">
                   <h2>
                     <span class="badge badge-secondary text-white">{{ listing.blood_group}}</span>
