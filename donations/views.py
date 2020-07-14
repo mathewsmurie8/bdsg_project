@@ -13,9 +13,11 @@ def index(request):
   latitude = -1.2672428
   longitude = 36.8373071
   donations = DonationRequest.objects.filter(status='PENDING')
+  bdsg_user = None
   if request.user.is_authenticated:
     bdsg_user_exists = BDSGUser.objects.filter(user=request.user).exists()
     if bdsg_user_exists:
+      bdsg_user = request.user.bdsguser_set.first()
       blood_group_to_donate_to = can_donate_blood_to(bdsg_user.blood_group)
       donations = DonationRequest.objects.filter(status='PENDING', blood_group__in=blood_group_to_donate_to)
       bdsg_user = BDSGUser.objects.get(user=request.user)
@@ -65,6 +67,7 @@ def index(request):
 
   context = {
     'donations': paged_listings,
+    'bdsg_user': bdsg_user,
     'dashboard_details': dashboard_details
   }
 
@@ -119,13 +122,13 @@ def get_closest_donation_centers(user_latitude, user_longitude):
     center_name = center.address + ' ' + center.name
     center_name = center_name.replace(' ', '+')
     center_distance = distance((user_latitude,user_longitude), (center.geolocation.lat, center.geolocation.lon))
-    # center_donations_url = '<a href=http://127.0.0.1:8000/donations/' + str(center.id) + ' class="btn btn-primary btn-block">view donation requests</a>'
-    center_google_url = '<a href=https://www.google.com/maps/search/' + center_name + ' class="btn btn-primary btn-block" target="_blank">view on google map</a>'
+    center_donations_url = '<a href=http://127.0.0.1:8000/donations/' + str(center.id) + ' class="btn btn-primary btn-block">view donation requests</a>'
+    center_google_url = 'https://www.google.com/maps/search/' + center_name
 
     center_payload = {
       'center': center,
       'center_distance': center_distance,
-      # 'center_donations_url': center_donations_url,
+      'center_donations_url': center_donations_url,
       'center_google_url': center_google_url
     }
     mvp_centers.append(center_payload)
@@ -198,6 +201,7 @@ def center_donations(request, center_id):
 def dashboard(request):
   latitude = -1.2672428
   longitude = 36.8373071
+  bdsg_user = None
   if request.user.is_authenticated:
     bdsg_user_exists = BDSGUser.objects.filter(user=request.user).exists()
     if bdsg_user_exists:
@@ -243,7 +247,8 @@ def dashboard(request):
       dashboard_details.append(center_payload)
 
   context = {
-    'dashboard_details': dashboard_details
+    'dashboard_details': dashboard_details,
+    'bdsg_user': bdsg_user
   }
 
   return render(request, 'listings/dashboard.html', context)

@@ -142,6 +142,7 @@
                   <i class="fa fa-compass"></i> {{ center.center_distance }} Km near you</p>
                 <p>
                   <a href="{% url 'center_donations' center.center.id %}" class="btn btn-primary btn-block">view donation requests</a>
+                  <a href="{{ center.center_google_url }}" class="btn btn-primary btn-block" target="_blank">Get Directions</a>
               </div>
             {% endfor %}
           {% else %}

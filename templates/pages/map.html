@@ -23,7 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_0ecceda959624e5c95816eadfa32ff44 {
+                #map_a69de4e4491944638760f41a1515f979 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -35,19 +35,19 @@
 </head>
 <body>    
     
-            <div class="folium-map" id="map_0ecceda959624e5c95816eadfa32ff44" ></div>
+            <div class="folium-map" id="map_a69de4e4491944638760f41a1515f979" ></div>
         
 </body>
 <script>    
     
-            var map_0ecceda959624e5c95816eadfa32ff44 = L.map(
-                "map_0ecceda959624e5c95816eadfa32ff44",
+            var map_a69de4e4491944638760f41a1515f979 = L.map(
+                "map_a69de4e4491944638760f41a1515f979",
                 {
-                    center: [-1.2657935, 36.8396339],
+                    center: [-1.2672428, 36.8373071],
                     crs: L.CRS.EPSG3857,
-                    zoomControl: true,
-                    preferCanvas: false,
                     zoom: 12,
+                    preferCanvas: false,
+                    zoomControl: true,
                 }
             );
 
@@ -55,32 +55,59 @@
 
         
     
-            var tile_layer_eede7ce5ab2246918a7291f33260a704 = L.tileLayer(
+            var tile_layer_fd7e2d0b7c5348669e38bd30f789c980 = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_0ecceda959624e5c95816eadfa32ff44);
+            ).addTo(map_a69de4e4491944638760f41a1515f979);
         
     
-            var marker_aefca85ea2d747abba5b7c658c46b50b = L.marker(
+            var marker_c5c12146c98c4ffe8ae879112080a4ae = L.marker(
+                [-1.2396243, 36.8977423],
+                {}
+            ).addTo(map_a69de4e4491944638760f41a1515f979);
+        
+    
+        var popup_7b5e7352109b4c729d0acaf137550d26 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_2c19764e8894488d8af74f223af13b6b = $(`<div id="html_2c19764e8894488d8af74f223af13b6b" style="width: 100.0%; height: 100.0%;"><strong>penda health hospital</strong>  7.39Km away <a href=http://127.0.0.1:8000/donations/16 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Penda+health+Lucky+Summer,+Unnamed+Road,+Nairobi,+Kenya+penda+health+hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
+            popup_7b5e7352109b4c729d0acaf137550d26.setContent(html_2c19764e8894488d8af74f223af13b6b);
+        
+
+        marker_c5c12146c98c4ffe8ae879112080a4ae.bindPopup(popup_7b5e7352109b4c729d0acaf137550d26)
+        ;
+
+        
+    
+    
+            marker_c5c12146c98c4ffe8ae879112080a4ae.bindTooltip(
+                `<div>
+                     Click for more info.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_95655a2a2f7f4a87867a8339063bcf2f = L.marker(
                 [-1.2953246, 36.8050522],
                 {}
-            ).addTo(map_0ecceda959624e5c95816eadfa32ff44);
+            ).addTo(map_a69de4e4491944638760f41a1515f979);
         
     
-        var popup_f9a2fa7ce2974417a48c9b6e563aa703 = L.popup({"maxWidth": "100%"});
+        var popup_d092b69ca326427e873c2942ac2b8da4 = L.popup({"maxWidth": "100%"});
 
         
-            var html_d94383f878e945fb80c7f73b349dbb5e = $(`<div id="html_d94383f878e945fb80c7f73b349dbb5e" style="width: 100.0%; height: 100.0%;"><strong>Nairobi hospital</strong>  5.06Km away <a href=http://127.0.0.1:8000/donations/7 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Nairobi+Hospital,+Nairobi,+Kenya+Nairobi+hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
-            popup_f9a2fa7ce2974417a48c9b6e563aa703.setContent(html_d94383f878e945fb80c7f73b349dbb5e);
+            var html_e3b4c4d1c87d4479a3813e7fadc83d67 = $(`<div id="html_e3b4c4d1c87d4479a3813e7fadc83d67" style="width: 100.0%; height: 100.0%;"><strong>Nairobi hospital</strong>  4.75Km away <a href=http://127.0.0.1:8000/donations/7 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Nairobi+Hospital,+Nairobi,+Kenya+Nairobi+hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
+            popup_d092b69ca326427e873c2942ac2b8da4.setContent(html_e3b4c4d1c87d4479a3813e7fadc83d67);
         
 
-        marker_aefca85ea2d747abba5b7c658c46b50b.bindPopup(popup_f9a2fa7ce2974417a48c9b6e563aa703)
+        marker_95655a2a2f7f4a87867a8339063bcf2f.bindPopup(popup_d092b69ca326427e873c2942ac2b8da4)
         ;
 
         
     
     
-            marker_aefca85ea2d747abba5b7c658c46b50b.bindTooltip(
+            marker_95655a2a2f7f4a87867a8339063bcf2f.bindTooltip(
                 `<div>
                      Click for more info.
                  </div>`,
@@ -88,53 +115,26 @@
             );
         
     
-            var marker_9bf513290da04fae923ea527776c420a = L.marker(
-                [-1.2675536, 36.8435361],
-                {}
-            ).addTo(map_0ecceda959624e5c95816eadfa32ff44);
-        
-    
-        var popup_b04257662a5142f28e8866c0bbd138a1 = L.popup({"maxWidth": "100%"});
-
-        
-            var html_0364323333eb4655aa8cd361038a0e63 = $(`<div id="html_0364323333eb4655aa8cd361038a0e63" style="width: 100.0%; height: 100.0%;"><strong>radiant hospital pangani</strong>  0.48Km away <a href=http://127.0.0.1:8000/donations/8 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Radiant+Hospital+Pangani,+Nairobi,+Kenya+radiant+hospital+pangani class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
-            popup_b04257662a5142f28e8866c0bbd138a1.setContent(html_0364323333eb4655aa8cd361038a0e63);
-        
-
-        marker_9bf513290da04fae923ea527776c420a.bindPopup(popup_b04257662a5142f28e8866c0bbd138a1)
-        ;
-
-        
-    
-    
-            marker_9bf513290da04fae923ea527776c420a.bindTooltip(
-                `<div>
-                     Click for more info.
-                 </div>`,
-                {"sticky": true}
-            );
-        
-    
-            var marker_3dd7dd9ef552413e9e45b145e595aa3d = L.marker(
+            var marker_01a94ed41a1e4f7e81ddff712c92453f = L.marker(
                 [-1.301301, 36.8069899],
                 {}
-            ).addTo(map_0ecceda959624e5c95816eadfa32ff44);
+            ).addTo(map_a69de4e4491944638760f41a1515f979);
         
     
-        var popup_1bdbb163e98b487bb6c3c6b2c1b3beee = L.popup({"maxWidth": "100%"});
+        var popup_6b593d9d5548467ab6d70974ad5b7fce = L.popup({"maxWidth": "100%"});
 
         
-            var html_e2ca716000e24a448156dde9db94886c = $(`<div id="html_e2ca716000e24a448156dde9db94886c" style="width: 100.0%; height: 100.0%;"><strong>Kenyatta Hospital</strong>  5.36Km away <a href=http://127.0.0.1:8000/donations/10 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Kenyatta+National+Hospital,+Hospital+Road,+Nairobi,+Kenya+Kenyatta+Hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
-            popup_1bdbb163e98b487bb6c3c6b2c1b3beee.setContent(html_e2ca716000e24a448156dde9db94886c);
+            var html_8b05b5e2f1d14b0b9d2a32d650dbf4c9 = $(`<div id="html_8b05b5e2f1d14b0b9d2a32d650dbf4c9" style="width: 100.0%; height: 100.0%;"><strong>Kenyatta Hospital</strong>  5.07Km away <a href=http://127.0.0.1:8000/donations/10 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Kenyatta+National+Hospital,+Hospital+Road,+Nairobi,+Kenya+Kenyatta+Hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
+            popup_6b593d9d5548467ab6d70974ad5b7fce.setContent(html_8b05b5e2f1d14b0b9d2a32d650dbf4c9);
         
 
-        marker_3dd7dd9ef552413e9e45b145e595aa3d.bindPopup(popup_1bdbb163e98b487bb6c3c6b2c1b3beee)
+        marker_01a94ed41a1e4f7e81ddff712c92453f.bindPopup(popup_6b593d9d5548467ab6d70974ad5b7fce)
         ;
 
         
     
     
-            marker_3dd7dd9ef552413e9e45b145e595aa3d.bindTooltip(
+            marker_01a94ed41a1e4f7e81ddff712c92453f.bindTooltip(
                 `<div>
                      Click for more info.
                  </div>`,
@@ -142,26 +142,26 @@
             );
         
     
-            var marker_498185a30ec14c78965c1163aa907773 = L.marker(
+            var marker_a5f3ff28a229479ea4033ef6381816bf = L.marker(
                 [-1.269573, 36.832344],
                 {}
-            ).addTo(map_0ecceda959624e5c95816eadfa32ff44);
+            ).addTo(map_a69de4e4491944638760f41a1515f979);
         
     
-        var popup_838e846153bf45f788d72bc546bd3065 = L.popup({"maxWidth": "100%"});
+        var popup_069462bc6d6949dba98a945beb89e867 = L.popup({"maxWidth": "100%"});
 
         
-            var html_0250dd577c00492db471cb0b52289878 = $(`<div id="html_0250dd577c00492db471cb0b52289878" style="width: 100.0%; height: 100.0%;"><strong>Guru Nanak hospital</strong>  0.91Km away <a href=http://127.0.0.1:8000/donations/11 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Guru+Nanak+Sikh+Hospital,+Jabavu+Road,+Nairobi,+Kenya+Guru+Nanak+hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
-            popup_838e846153bf45f788d72bc546bd3065.setContent(html_0250dd577c00492db471cb0b52289878);
+            var html_7ccdc2204b91473f80663db00e8a8ac5 = $(`<div id="html_7ccdc2204b91473f80663db00e8a8ac5" style="width: 100.0%; height: 100.0%;"><strong>Guru Nanak hospital</strong>  0.61Km away <a href=http://127.0.0.1:8000/donations/11 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Guru+Nanak+Sikh+Hospital,+Jabavu+Road,+Nairobi,+Kenya+Guru+Nanak+hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
+            popup_069462bc6d6949dba98a945beb89e867.setContent(html_7ccdc2204b91473f80663db00e8a8ac5);
         
 
-        marker_498185a30ec14c78965c1163aa907773.bindPopup(popup_838e846153bf45f788d72bc546bd3065)
+        marker_a5f3ff28a229479ea4033ef6381816bf.bindPopup(popup_069462bc6d6949dba98a945beb89e867)
         ;
 
         
     
     
-            marker_498185a30ec14c78965c1163aa907773.bindTooltip(
+            marker_a5f3ff28a229479ea4033ef6381816bf.bindTooltip(
                 `<div>
                      Click for more info.
                  </div>`,
@@ -169,26 +169,53 @@
             );
         
     
-            var marker_ac799f8dc45b411c823c80631644c2cd = L.marker(
+            var marker_c0b4fac3e123454f80ccb011fc7b6a9a = L.marker(
                 [-1.2631693, 36.8118767],
                 {}
-            ).addTo(map_0ecceda959624e5c95816eadfa32ff44);
+            ).addTo(map_a69de4e4491944638760f41a1515f979);
         
     
-        var popup_2c7a2666e7b24203aec31ec7a93dc2b2 = L.popup({"maxWidth": "100%"});
+        var popup_58ecfef508e741cbb1e105e1b7fef8d5 = L.popup({"maxWidth": "100%"});
 
         
-            var html_0d465fbd0dff43e1a64d82ee1ba65726 = $(`<div id="html_0d465fbd0dff43e1a64d82ee1ba65726" style="width: 100.0%; height: 100.0%;"><strong>M P  Shah hospital</strong>  3.1Km away <a href=http://127.0.0.1:8000/donations/9 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/MP+Shah+Hospital,+in+Parklands+area,+Shivachi+Road,+Nairobi,+Kenya+M+P++Shah+hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
-            popup_2c7a2666e7b24203aec31ec7a93dc2b2.setContent(html_0d465fbd0dff43e1a64d82ee1ba65726);
+            var html_fbd1ed6f3278447fbee31dfd3a4c4208 = $(`<div id="html_fbd1ed6f3278447fbee31dfd3a4c4208" style="width: 100.0%; height: 100.0%;"><strong>M P  Shah hospital</strong>  2.86Km away <a href=http://127.0.0.1:8000/donations/9 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/MP+Shah+Hospital,+in+Parklands+area,+Shivachi+Road,+Nairobi,+Kenya+M+P++Shah+hospital class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
+            popup_58ecfef508e741cbb1e105e1b7fef8d5.setContent(html_fbd1ed6f3278447fbee31dfd3a4c4208);
         
 
-        marker_ac799f8dc45b411c823c80631644c2cd.bindPopup(popup_2c7a2666e7b24203aec31ec7a93dc2b2)
+        marker_c0b4fac3e123454f80ccb011fc7b6a9a.bindPopup(popup_58ecfef508e741cbb1e105e1b7fef8d5)
         ;
 
         
     
     
-            marker_ac799f8dc45b411c823c80631644c2cd.bindTooltip(
+            marker_c0b4fac3e123454f80ccb011fc7b6a9a.bindTooltip(
+                `<div>
+                     Click for more info.
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6328a967212b40409f26fa1573d75a60 = L.marker(
+                [-1.2675536, 36.8435361],
+                {}
+            ).addTo(map_a69de4e4491944638760f41a1515f979);
+        
+    
+        var popup_8d98a21403164c27a7c218e4357976db = L.popup({"maxWidth": "100%"});
+
+        
+            var html_2fa3b7dcdbaa4af0ac0dcb636f6baff5 = $(`<div id="html_2fa3b7dcdbaa4af0ac0dcb636f6baff5" style="width: 100.0%; height: 100.0%;"><strong>Radiant Hospital Pangani</strong>  0.69Km away <a href=http://127.0.0.1:8000/donations/14 class="btn btn-primary btn-block">view donation requests</a>  <a href=https://www.google.com/maps/search/Radiant+Hospital+Pangani,+Nairobi,+Kenya+Radiant+Hospital+Pangani class="btn btn-primary btn-block" target="_blank">view on google map</a></div>`)[0];
+            popup_8d98a21403164c27a7c218e4357976db.setContent(html_2fa3b7dcdbaa4af0ac0dcb636f6baff5);
+        
+
+        marker_6328a967212b40409f26fa1573d75a60.bindPopup(popup_8d98a21403164c27a7c218e4357976db)
+        ;
+
+        
+    
+    
+            marker_6328a967212b40409f26fa1573d75a60.bindTooltip(
                 `<div>
                      Click for more info.
                  </div>`,
