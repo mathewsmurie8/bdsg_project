@@ -84,7 +84,7 @@ def contact(request):
     send_mail(
       'Blood Donation Appointment',
       'Dear ' + donation_center_name + ', \n' + name + ' has made an inquiry for donation request with title ' + donation_request.name + '. \n' + 'The donor email is ' + email + ' and phone number is ' + phone + '. The appointment date is ' + apt_date + '.' + '\n' + 'Click on http://127.0.0.1:8000/admin/donations/donationrequestappointment/' + appointment_id + '/' + ' to access the appointment details.',
-      'mathewsmurie@gmail.com',
+      'skidweezmurie@gmail.com',
       [recipient],
       fail_silently=False
     )

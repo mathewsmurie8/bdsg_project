@@ -46,7 +46,7 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Blood donation request</th>
-                  <th scope="col">Name</th>
+                  <th scope="col">Donation Center</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Date</th>
@@ -60,13 +60,14 @@
                   <tr>
                     <td>{{ contact.contact.id }}</td>
                     <td>{{ contact.contact.listing }}</td>
-                    <td>{{ contact.contact.name }}</td>
+                    <td>{{ contact.donation_request_appointment.donation_request.donation_center.name }}</td>
                     <td>{{ contact.contact.email }}</td>
                     <td>{{ contact.contact.phone }}</td>
                     <td>{{ contact.donation_request_appointment.appointment_date }}</td>
                     <td>{{ contact.donation_request_appointment.appointment_status }}</td>
                     <td>
                       <a class="btn btn-primary btn-block" href="{% url 'listing' contact.contact.listing_id %}">View donation request</a>
+                      <!-- <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Edit</button> -->
                     </td>
                   </tr>
                 {% endfor %}
@@ -80,6 +81,62 @@
       </div>
     </div>
   </section>
+
+  <!-- Inquiry Modal -->
+  <div class="modal fade" id="inquiryModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="inquiryModalLabel">Make An Appointment</h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'contact' %}" method="POST">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+              <input type="hidden" name="user_id" value="{{ user.id }}">
+            {% else %}
+              <input type="hidden" name="user_id" value="0">
+            {% endif %}
+            <input type="hidden" name="realtor_email" value="{{ listing.realtor.email }}">
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+            <div class="form-group">
+              <label for="property_name" class="col-form-label">Donation Request:</label>
+              <input type="text" name="listing" class="form-control" value="{{ contact }}">
+            </div>
+            <div class="form-group">
+              <label for="name" class="col-form-label">Name:</label>
+              <input type="text" name="name" class="form-control" {% if user.is_authenticated %} value="{{ user.first_name }} {{ user.last_name }}" {% endif %} required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-form-label">Email:</label>
+              <input type="email" name="email" class="form-control" {% if user.is_authenticated %} value="{{ user.email }}" {% endif %} required>
+            </div>
+            <div class="form-group">
+              <label for="phone" class="col-form-label">Phone:</label>
+              {% if user.is_authenticated %}
+                <input type="tel" name="phone" pattern="[0-9]{4}[0-9]{3}[0-9]{3}" placeholder="The format is 0790360360" class="form-control" {% if user.is_authenticated %} value="{{ bdsg_user.phone }}" {% endif %} required>
+              {% else %}
+              <input type="tel" name="phone" pattern="[0-9]{4}[0-9]{3}[0-9]{3}" placeholder="The format is 0790360360" class="form-control" required>
+              {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="appointment_date" class="col-form-label">Donation Date:</label>
+                <input type="datetime-local" name="appointment_date" class="form-control" value="{{ contact.donation_request_appointment.appointment_date }}" required>
+              </div>
+            <div class="form-group">
+              <label for="message" class="col-form-label">Message:</label>
+              <textarea name="message" class="form-control"></textarea>
+            </div>
+            <hr>
+            <input type="submit" value="Send" class="btn btn-block btn-secondary">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <section class="py-4">
     <div class="container">

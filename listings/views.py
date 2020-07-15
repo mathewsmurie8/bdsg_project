@@ -10,6 +10,7 @@ from accounts.models import BDSGUser
 def index(request):
   latitude = -1.2672428
   longitude = 36.8373071
+  bdsg_user = None
   listings = DonationRequest.objects.filter(status='PENDING')
   if request.user.is_authenticated:
     bdsg_user_exists = BDSGUser.objects.filter(user=request.user).exists()
@@ -65,17 +66,23 @@ def index(request):
     'blood_group_choices': blood_group_choices,
     'donation_type_choices': donation_type_choices,
     'listings': paged_listings,
+    'bdsg_user': bdsg_user,
     'dashboard_details': dashboard_details
   }
 
   return render(request, 'listings/listings.html', context)
 
 def listing(request, listing_id):
+  bdsg_user = None
   listing = get_object_or_404(DonationRequest, pk=listing_id)
+  if request.user.is_authenticated:
+    bdsg_user = BDSGUser.objects.get(user=request.user)
+
 
   context = {
     'blood_group_choices': blood_group_choices,
     'donation_type_choices': donation_type_choices,
+    'bdsg_user': bdsg_user,
     'listing': listing
   }
 
@@ -83,6 +90,9 @@ def listing(request, listing_id):
 
 def search(request):
   queryset_list = DonationRequest.objects.all().filter(status='PENDING')
+  bdsg_user = None
+  if request.user.is_authenticated:
+    bdsg_user = BDSGUser.objects.get(user=request.user)
 
   # Major search fields
   # Keywords
@@ -110,6 +120,7 @@ def search(request):
     'blood_group_choices': blood_group_choices,
     'donation_type_choices': donation_type_choices,
     'listings': queryset_list,
+    'bdsg_user': bdsg_user,
     'values': request.GET
   }
 

@@ -21,7 +21,7 @@ def send_sms(recipient, message):
   message_sender = os.getenv('MESSAGE_SENDER', '')
   client = Client(account_sid, auth_token)
   client.messages.create(
-        to='+254707038109',
+        to=recipient.raw_input,
         from_=message_sender,
         body=message
   )
@@ -72,13 +72,24 @@ class DonationCenter(models.Model):
   def __str__(self):
     return self.name
 
+  def send_account_creation_email_to_system_admin(self):
+    """Send notification email to system admin on account creation."""
+    recipient = 'skidweezmurie@gmail.com'
+    send_mail(
+      'Donation Center Account Creation Request',
+      'Dear BDSG Admin ', '\n' + self.name + ' has requested for an account creation. You can view the donation center details at http://127.0.0.1:8000/admin/donations/donationcenter/' + self.id + '/',
+      'mathewsmurie@gmail.com',
+      [recipient],
+      fail_silently=False
+    )
+
   def send_activation_email_to_donation_center(self):
     """Send notification email to donation center on activation."""
     recipient = self.email
     send_mail(
       'Account activation',
-      'Dear ' + self.name + ', \n' + 'Your account has been created',
-      'mathewsmurie@gmail.com',
+      'Dear ' + self.name + ', \n' + 'Your account has been created at BDSG. You can view the website at http://127.0.0.1:8000/',
+      'skidweezmurie@gmail.com',
       [recipient],
       fail_silently=False
     )
@@ -88,11 +99,30 @@ class DonationCenter(models.Model):
     self.full_clean(exclude=None)
     if self.is_approved and self.is_verified:
       self.send_activation_email_to_donation_center()
+    if not self.is_approved and self.is_verified:
+      self.send_account_creation_email_to_system_admin()
     super(DonationCenter, self).save(*args, **kwargs)
 
 class UserDonationCenter(models.Model):
   user = models.ForeignKey(User, max_length=255, on_delete=models.CASCADE)
   donation_center = models.ForeignKey(DonationCenter, max_length=255, on_delete=models.PROTECT)
+
+  def send_activation_email_to_donation_center_user(self):
+    """Send notification email to user belonging donation center on activation."""
+    recipient = self.user.email
+    send_mail(
+      'Account creation on BDSG',
+      'Dear ' + self.user.first_name + ', \n' + 'Your account has been created at BDSG. You can login at http://127.0.0.1:8000/admin/ using bdsg@2020 as your password.',
+      'skidweezmurie@gmail.com',
+      [recipient],
+      fail_silently=False
+    )
+
+  def save(self, *args, **kwargs):
+    """Ensure validations are run and updated/created preserved."""
+    self.full_clean(exclude=None)
+    self.send_activation_email_to_donation_center_user()
+    super(UserDonationCenter, self).save(*args, **kwargs)
 
 
 class DonationRequest(models.Model):
@@ -194,28 +224,33 @@ class DonationRequestAppointment(models.Model):
 
   def send_donation_request_completion_email_to_donation_center(self):
     """Send notification email to donation center on activation."""
-    recipient_name = self.donation_request.donation_for.user.first_name
-    donation_center_name = self.donation_request.donation_center.name
-    recipients = list(set(self.__class__.objects.filter(donation_request=self.donation_request).values_list('created_by', flat=True)))
-    send_mail(
-      'Donation request for' + recipient_name + 'is completed',
-      'Dear ' + donation_center_name + ',' + '\n' + 'Blood donation target for ' + recipient_name + ' has reached its target of ' + self.donation_request.target_donations + ' pints.',
-      'mathewsmurie@gmail.com',
-      recipients,
-      fail_silently=False
-    )
+    if self.donation_request.donation_for:
+      recipient_name = self.donation_request.donation_for.user.first_name
+      donation_center_name = self.donation_request.donation_center.name
+      recipients = list(set(self.__class__.objects.filter(donation_request=self.donation_request).values_list('created_by', flat=True)))
+      message = "'Dear {}, \n Blood donation target for {} has reached its target of {} pints.'".format(donation_center_name, recipient_name, self.donation_request.target_donations)
+      send_mail(
+        'Donation request for ' + recipient_name + ' is completed',
+        message,
+        'skidweezmurie@gmail.com',
+        recipients,
+        fail_silently=False
+      )
 
   def send_donation_request_completion_email_to_donation_recipient(self):
     """Send notification email to donation recipient on target being met."""
-    recipient_name = self.donation_request.donation_for.user.first_name
-    recipients = list(self.donation_request.donation_for.user.email)
-    send_mail(
-      'Blood Donation Target Reached',
-      'Dear ' + recipient_name + ', ' + '\n' + 'Your blood donation request made at ' + self.donation_request.donation_center.name + ' has reached its target of ' + self.donation_request.target_donations + ' pints.',
-      'mathewsmurie@gmail.com',
-      recipients,
-      fail_silently=False
-    )
+    if self.donation_request.donation_for:
+      recipients = []
+      recipient_name = self.donation_request.donation_for.user.first_name
+      recipients.append(self.donation_request.donation_for.user.email)
+      message = "'Dear {}, \n Your blood donation request made at {} has reached its target of {} pints.'".format(recipient_name, self.donation_request.donation_center.name, self.donation_request.target_donations)
+      send_mail(
+        'Blood Donation Target Reached',
+        message,
+        'skidweezmurie@gmail.com',
+        recipients,
+        fail_silently=False
+      )
 
   def save(self, *args, **kwargs):
       """Ensure validations are run and updated/created preserved."""

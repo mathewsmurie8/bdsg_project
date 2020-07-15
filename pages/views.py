@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 
 from donations.choices import blood_group_choices, donation_type_choices
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from donations.models import DonationRequest, DonationCenter, can_donate_blood_to
 from accounts.models import BDSGUser
 from donations.views import distance, get_closest_donation_centers
@@ -62,8 +63,12 @@ def index(request):
     if not listings:
         messages.error(request, 'There are no pending blood donation requests at this time. Thank you')
 
+    paginator = Paginator(listings, 6)
+    page = request.GET.get('page')
+    paged_listings = paginator.get_page(page)
+
     context = {
-        'listings': listings,
+        'listings': paged_listings,
         'blood_group_choices': blood_group_choices,
         'donation_type_choices': donation_type_choices,
         'dashboard_details': dashboard_details,
